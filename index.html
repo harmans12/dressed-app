@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#171717" />
+  <meta name="dressed-version" content="17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DRESSED" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <title>DRESSED</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;--card:#fff;--ink:#171717;--muted:#807c74;--line:#e8e3da;--soft:#efebe3;
+      --shadow:0 10px 30px rgba(25,22,18,.055);--radius:22px;--accent:#8d8476;
+      --safe-bottom:env(safe-area-inset-bottom,0px);--safe-top:env(safe-area-inset-top,0px)
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
+    body{min-height:100vh}
+    button,input,select,textarea{font:inherit}
+    button{border:0;background:none;color:inherit}
+    .app{max-width:540px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
+    .top{padding:calc(14px + var(--safe-top)) 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 80%,transparent)}
+    .brand{font-weight:800;letter-spacing:6px;font-size:27px;line-height:1}
+    .tagline{font-size:9px;letter-spacing:1.6px;color:var(--muted);margin-top:6px}
+    .round-btn{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:var(--shadow)}
+    .content{padding:6px 20px calc(104px + var(--safe-bottom))}
+    .eyebrow{font-size:10px;letter-spacing:2.2px;font-weight:800;color:var(--accent)}
+    h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;font-weight:500;letter-spacing:-1px;margin:8px 0 0}
+    h2{font-family:Georgia,"Times New Roman",serif;font-size:28px;font-weight:500;margin:0}
+    p{color:var(--muted);line-height:1.5}
+    .hero{padding:12px 0 18px}
+    .hero p{font-size:14px;margin:10px 0 18px;max-width:390px}
+    .quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .quick-card{background:var(--ink);color:#fff;border-radius:20px;padding:16px 16px 14px;min-height:110px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
+    .quick-card.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .quick-icon{font-size:20px}.quick-title{font-weight:800;letter-spacing:.7px;font-size:12px;text-transform:uppercase}.quick-sub{font-size:11px;opacity:.65;margin-top:5px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin:22px 0 10px}
+    .section-head .muted{font-size:10px;letter-spacing:1.3px;color:var(--muted);text-transform:uppercase;font-weight:800}
+    .day{margin-bottom:17px}.day-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px}.day-date{font-size:11px;font-weight:800;letter-spacing:1.3px}.conflict{padding:5px 8px;background:#e7e1d6;border-radius:20px;font-size:8px;font-weight:800;letter-spacing:1px}
+    .event{background:#fff;border:1px solid rgba(0,0,0,.025);border-radius:20px;padding:15px;margin-bottom:10px;box-shadow:var(--shadow)}
+    .event-top{display:flex;gap:13px}.date-box{width:56px;min-width:56px;height:58px;border-radius:15px;background:#f0ede7;display:flex;flex-direction:column;align-items:center;justify-content:center}.date-day{font-size:20px;font-weight:800}.date-month{font-size:8px;letter-spacing:1.1px;color:var(--muted);margin-top:2px}.event-main{min-width:0}.category{font-size:9px;letter-spacing:1.5px;color:#998d7b;font-weight:800;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-name{font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.12;margin-top:4px}.meta{font-size:11px;color:var(--muted);margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}.badge{padding:6px 9px;border-radius:20px;font-size:8px;letter-spacing:1px;font-weight:800;text-transform:uppercase}.badge.high{background:#e9ddd8}.badge.medium{background:#e7e1d6}.badge.normal{background:#eeece7}.look-pill{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:1px;font-weight:800;text-transform:uppercase}.look-pill img{width:30px;height:30px;border-radius:10px;object-fit:cover}
+    .empty{border:1px dashed #d9d3ca;border-radius:20px;padding:28px 18px;text-align:center}.empty strong{font-family:Georgia,serif;font-size:23px;font-weight:500}.empty p{font-size:12px;margin:7px 0 0}
+    .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:30;width:min(540px,100%);padding:10px 16px calc(10px + var(--safe-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr 1fr 1fr;align-items:end}.nav-btn{font-size:10px;color:#9a968d;display:flex;align-items:center;flex-direction:column;gap:5px}.nav-btn.active{color:var(--ink);font-weight:800}.nav-plus{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;margin:-26px auto 0;font-size:24px;box-shadow:0 12px 30px rgba(0,0,0,.16)}
+    .sheet{position:fixed;inset:0;z-index:50;display:none;background:rgba(20,18,15,.38);align-items:flex-end}.sheet.open{display:flex}.panel{width:100%;max-width:540px;margin:0 auto;background:var(--bg);border-radius:28px 28px 0 0;padding:18px 20px calc(22px + var(--safe-bottom));max-height:91vh;overflow:auto}.grab{width:40px;height:5px;border-radius:5px;background:#d6d1c8;margin:0 auto 16px}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.panel-title{font-family:Georgia,serif;font-size:28px}.panel-sub{font-size:11px;color:var(--muted);margin-top:5px}.x{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center}.field{margin-top:12px}.label{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#7b766e;text-transform:uppercase;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:13px;padding:12px 13px;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:#b8b1a4}.textarea{min-height:74px;resize:vertical}.primary{width:100%;height:52px;background:var(--ink);color:#fff;border-radius:26px;margin-top:16px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;font-size:10px}.outline{width:100%;height:50px;border:1px solid var(--ink);border-radius:25px;margin-top:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;font-size:10px}.danger{color:#9a4b40;font-weight:800;letter-spacing:1px;font-size:10px;text-transform:uppercase;padding:14px 0}.upload-area{border:1px dashed #d4cec4;border-radius:18px;background:#fff;padding:19px;text-align:center}.upload-area strong{font-size:14px}.upload-area p{font-size:11px;margin:5px 0 0}.file-name{margin-top:8px;font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.review-list{margin-top:12px}.review-card{background:#fff;border-radius:18px;padding:14px;margin-bottom:10px;border:1px solid var(--line)}.review-top{display:flex;gap:11px}.review-date{width:50px;height:50px;background:#f0ede7;border-radius:14px;display:grid;place-items:center;align-content:center}.review-date b{font-size:17px}.review-date span{font-size:8px;color:var(--muted);letter-spacing:1px}.review-title{font-family:Georgia,serif;font-size:19px}.review-category{font-size:8px;color:#998d7b;letter-spacing:1.2px;font-weight:800;margin-top:3px}.review-meta{font-size:10px;color:var(--muted);margin-top:7px}.priority-row{display:flex;gap:7px;margin-top:10px}.pbtn{flex:1;height:33px;border-radius:18px;border:1px solid var(--line);font-size:8px;letter-spacing:.8px;font-weight:800}.pbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .look-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:15px}.look{background:#fff;border-radius:17px;overflow:hidden;border:1px solid rgba(0,0,0,.025);box-shadow:var(--shadow)}.look img{display:block;width:100%;aspect-ratio:1/1.18;object-fit:cover}.look-body{padding:11px}.look-name{font-size:13px;font-weight:800}.look-notes{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.3}.look-add{background:#fff;border:1px dashed #d4cec4;border-radius:17px;min-height:220px;display:grid;place-items:center;text-align:center;padding:15px}.look-add strong{font-size:13px}.look-add p{font-size:10px;margin:5px 0 0}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.choice{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:left}.choice.selected{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}.choice img{width:100%;aspect-ratio:1/1.1;display:block;object-fit:cover}.choice div{padding:9px;font-size:10px;font-weight:800}.small-actions{display:flex;gap:8px}.small-actions button{flex:1;height:43px;border-radius:22px;border:1px solid var(--line);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.small-actions .solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#171717;color:#fff;padding:11px 14px;border-radius:18px;font-size:11px;z-index:80;display:none;max-width:88%;text-align:center}.toast.show{display:block}
+    .loader{display:none;position:fixed;inset:0;z-index:100;background:rgba(247,245,239,.72);backdrop-filter:blur(8px);place-items:center}.loader.show{display:grid}.loader-card{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:18px 19px;display:flex;gap:11px;align-items:center;font-size:11px;letter-spacing:1px;font-weight:800}.spinner{width:18px;height:18px;border-radius:50%;border:2px solid #ddd;border-top-color:#171717;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .install{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;margin-top:14px;display:flex;gap:10px;align-items:flex-start}.install b{font-size:11px}.install span{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.install button{font-size:9px;letter-spacing:1px;font-weight:800;text-transform:uppercase;white-space:nowrap}
+    .hidden{position:absolute!important;opacity:0!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}.file-label{cursor:pointer}.profile-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px 6px 6px;box-shadow:var(--shadow);font-size:10px;font-weight:800}.profile-avatar{width:28px;height:28px;border-radius:50%;background:#f0ede7;display:grid;place-items:center;font-size:14px}.profile-name{max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-list{display:grid;gap:9px;margin-top:12px}.profile-item{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.profile-item.active{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}.profile-item .pi-meta{flex:1}.profile-item .pi-name{font-size:12px;font-weight:800}.profile-item .pi-sub{font-size:9px;color:var(--muted);margin-top:3px}.profile-item button{font-size:9px;letter-spacing:.8px;font-weight:800;text-transform:uppercase}.profile-add{margin-top:10px;display:flex;gap:8px}.profile-add input{flex:1}.profile-delete{color:#9a4b40}
+  
+
+    .photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.photo-thumb{position:relative;border-radius:14px;overflow:hidden;background:#eee}.photo-thumb img{display:block;width:100%;aspect-ratio:1/1.1;object-fit:cover}.photo-thumb .remove{position:absolute;right:5px;top:5px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.92);font-weight:800}.look-card-actions{display:flex;gap:7px;padding:0 10px 10px}.look-card-actions button{flex:1;border:1px solid var(--line);border-radius:18px;height:34px;font-size:8px;letter-spacing:.9px;font-weight:800;text-transform:uppercase}.event-style{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:10px}.event-style .es-title{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:#817b72}.event-style .es-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4}.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.mini-grid img{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;display:block}
+    .ocr-progress{position:fixed;left:50%;transform:translateX(-50%);top:calc(76px + var(--safe-top));z-index:70;background:#171717;color:#fff;padding:9px 12px;border-radius:16px;font-size:10px;letter-spacing:.7px;display:none;max-width:88%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.15)}.ocr-progress.show{display:block}
+.look-card-actions button{cursor:pointer;touch-action:manipulation}.look-card-actions .edit{background:#171717;color:#fff;border-color:#171717}.look-card-actions .edit:active{transform:scale(.98)}.look{position:relative}.source-note{font-size:10px;color:var(--muted);line-height:1.4;margin-top:10px}.read-status{background:#f0ede7;border-radius:14px;padding:10px 12px;font-size:10px;color:#6d685f;margin-top:10px}.raw-toggle{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-top:9px}.raw-text{white-space:pre-wrap;background:#1b1b1b;color:#f4f1eb;border-radius:14px;padding:12px;font-size:9px;line-height:1.45;max-height:180px;overflow:auto;margin-top:8px}.edit-overlay{position:absolute;right:9px;bottom:9px;background:rgba(23,23,23,.92);color:#fff;border-radius:18px;padding:8px 11px;font-size:8px;font-weight:800;letter-spacing:1.2px;box-shadow:0 5px 15px rgba(0,0,0,.18)}.edit-overlay:active{transform:scale(.98)}</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div><div class="brand">DRESSED</div><div class="tagline">YOUR PLANS. YOUR PEOPLE. YOUR LOOK.</div></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <button class="profile-chip" id="profileBtn" aria-label="Switch profile"><span class="profile-avatar" id="profileAvatar">☺</span><span class="profile-name" id="profileName">Me</span>⌄</button>
+      <button class="round-btn" id="settingsBtn" aria-label="Settings">⚙︎</button>
+    </div>
+  </header>
+
+  <main class="content" id="content">
+  <section class="hero" id="bootHome">
+    <div class="eyebrow">DRESSED / YOUR SOCIAL LIFE</div>
+    <h1>Ready when<br>you are.</h1>
+    <p>Upload an invitation — PDF, photo or video — and DRESSED turns it into clean, editable plans.</p>
+    <div class="quick">
+      <button class="quick-card" type="button" data-action="add-invite"><span class="quick-icon">✦</span><span><div class="quick-title">Add Invitation</div><div class="quick-sub">PDF, photo or video</div></span></button>
+      <button class="quick-card alt" type="button" data-action="add-look"><span class="quick-icon">◒</span><span><div class="quick-title">Add a Look</div><div class="quick-sub">Save an outfit</div></span></button>
+    </div>
+    <div class="section-head"><h2>Upcoming</h2><span class="muted">0 EVENTS</span></div>
+    <div class="empty"><strong>No plans yet.</strong><p>Your next invitation can become your first DRESSED calendar.</p></div>
+  </section>
+</main>
+
+  <nav class="nav">
+    <button class="nav-btn active" data-tab="home"><span style="font-size:19px">⌂</span><span>HOME</span></button>
+    <button class="nav-btn" data-tab="calendar"><span style="font-size:18px">▦</span><span>CALENDAR</span></button>
+    <button class="nav-plus" id="addBtn" aria-label="Add invitation">＋</button>
+    <button class="nav-btn" data-tab="looks"><span style="font-size:18px">◌</span><span>MY LOOKS</span></button>
+  </nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+<div class="loader" id="loader"><div class="loader-card"><span class="spinner"></span><span id="loaderText">READING YOUR INVITATION…</span></div></div>
+<div class="toast" id="toast"></div>
+<div id="ocrProgress" class="ocr-progress" aria-live="polite"></div>
+
+<input id="inviteFile" type="file" accept="application/pdf,.pdf,image/*,video/*,.mp4,.mov,.m4v,.webm" class="hidden" aria-label="Choose invitation">
+<input id="lookFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" multiple class="hidden" aria-label="Choose outfit photo">
+<input id="eventPhotoFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" multiple class="hidden" aria-label="Add event outfit photos">
+
+<script>
+
+const state={tab:'home',events:[],looks:[],review:null,sourceName:'',selectedEvent:null,lookForEvent:null,selectedLook:null,pendingLook:null,pendingLookPhotos:[],pendingLookContext:null,editLookId:null,profiles:[],activeProfileId:null};
+const DB_NAME='dressed-private-v5';
+const DB_VERSION=1;
+let db=null;
+let storageMode='idb';
+const memoryStore={profiles:[],settings:[]};
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function fmtDate(date,opts={weekday:'short',day:'2-digit',month:'short'}){return new Date(date+'T12:00:00').toLocaleDateString('en-IN',opts).toUpperCase()}
+function parts(date){const d=new Date(date+'T12:00:00');return {day:d.getDate(),month:d.toLocaleDateString('en-IN',{month:'short'}).toUpperCase()}}
+function timeDisplay(t){const m=String(t||'').match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return t||'';if(!m[3])return t;return `${m[1]}:${m[2]||'00'} ${m[3].toUpperCase()}`+(String(t).toLowerCase().includes('onwards')?' onwards':'')}
+function startDate(date,time){let m=String(time||'').match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);let h=m?Number(m[1]):19,mi=m?Number(m[2]||0):0,ap=m?.[3]?.toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return new Date(`${date}T${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:00`)}
+function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function showLoader(msg){document.getElementById('loaderText').textContent=msg;document.getElementById('loader').classList.add('show')}
+function hideLoader(){document.getElementById('loader').classList.remove('show')}
+function progress(msg){const el=document.getElementById('ocrProgress');if(!el)return;el.textContent=msg||'';el.classList.toggle('show',!!msg)}
+function openSheet(html){document.getElementById('panel').innerHTML=html;document.getElementById('sheet').classList.add('open');document.querySelectorAll('[data-close-sheet]').forEach(x=>x.onclick=closeSheet)}
+function closeSheet(){document.getElementById('sheet').classList.remove('open');state.selectedEvent=null;state.lookForEvent=null;state.selectedLook=null;state.pendingLook=null;state.pendingLookPhotos=[];state.pendingLookContext=null;state.editLookId=null}
+function uid(prefix='id'){return prefix+'_'+Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function profileKey(){return state.activeProfileId||'default'}
+
+function memGetAll(store){return (memoryStore[store]||[]).slice()}
+function memGet(store,key){return (memoryStore[store]||[]).find(x=>x.id===key||x.key===key)||null}
+function memPut(store,item){const arr=memoryStore[store]||[];const idx=arr.findIndex(x=>(x.id||x.key)===(item.id||item.key));if(idx>=0)arr[idx]=item;else arr.push(item);memoryStore[store]=arr;return item}
+function put(store,item){if(storageMode!=='idb')return Promise.resolve(memPut(store,item));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(item);tx.oncomplete=()=>resolve(item);tx.onerror=()=>reject(tx.error||new Error('Storage write failed'));tx.onabort=()=>reject(tx.error||new Error('Storage write aborted'))}catch(e){storageMode='memory';memPut(store,item);resolve(item)}})}
+function get(store,key){if(storageMode!=='idb')return Promise.resolve(memGet(store,key));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error||new Error('Storage read failed'))}catch(e){storageMode='memory';resolve(memGet(store,key))}})}
+function getAll(store){if(storageMode!=='idb')return Promise.resolve(memGetAll(store));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error||new Error('Storage read failed'))}catch(e){storageMode='memory';resolve(memGetAll(store))}})}
+
+async function importOldProfiles(){
+  let imported=[];
+  try{
+    const oldReq=indexedDB.open('dressed-private-v4',1);
+    await new Promise(resolve=>{
+      oldReq.onsuccess=()=>{
+        try{
+          const od=oldReq.result;
+          if(!od.objectStoreNames.contains('profiles')){od.close();resolve();return;}
+          const tx=od.transaction('profiles','readonly');
+          const q=tx.objectStore('profiles').getAll();
+          q.onsuccess=()=>{imported=q.result||[];od.close();resolve()};
+          q.onerror=()=>{od.close();resolve()};
+        }catch(_){resolve()}
+      };
+      oldReq.onerror=()=>resolve();
+      oldReq.onblocked=()=>resolve();
+    });
+  }catch(_){ }
+  return imported;
+}
+
+async function initDB(){
+  try{
+    if(!('indexedDB' in window)) throw new Error('IndexedDB unavailable');
+    db=await new Promise((resolve,reject)=>{
+      const req=indexedDB.open(DB_NAME,DB_VERSION);
+      req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains('profiles'))d.createObjectStore('profiles',{keyPath:'id'});if(!d.objectStoreNames.contains('settings'))d.createObjectStore('settings',{keyPath:'id'});};
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error||new Error('Could not open IndexedDB'));
+      req.onblocked=()=>reject(new Error('Database is blocked'));
+    });
+    storageMode='idb';
+    let ps=await getAll('profiles');
+    if(!ps.length){
+      let old=await importOldProfiles();
+      if(old.length){for(const p of old) await put('profiles',p);ps=old;}
+      else{const p={id:uid('profile'),name:'Me',emoji:'☺',events:[],looks:[]};await put('profiles',p);ps=[p]}
+    }
+    state.profiles=ps;
+    let active=(await get('settings','active-profile'))?.value || ps[0].id;
+    if(!ps.some(p=>p.id===active)) active=ps[0].id;
+    state.activeProfileId=active;
+    await put('settings',{id:'active-profile',value:active});
+    const activeP=ps.find(p=>p.id===active)||ps[0];
+    state.events=Array.isArray(activeP.events)?activeP.events:[];
+    state.looks=Array.isArray(activeP.looks)?activeP.looks:[];
+    state.looks.forEach(l=>{if(!Array.isArray(l.photos))l.photos=l.dataUrl?[l.dataUrl]:[];if(!l.dataUrl&&l.photos[0])l.dataUrl=l.photos[0]});
+    state.events.forEach(e=>{if(!Array.isArray(e.stylePhotos))e.stylePhotos=[];if(typeof e.styleNotes!=='string')e.styleNotes=''});
+    return;
+  }catch(err){
+    storageMode='memory';db=null;
+    state.profiles=memoryStore.profiles;
+    if(!state.profiles.length){const p={id:uid('profile'),name:'Me',emoji:'☺',events:[],looks:[]};memPut('profiles',p);state.profiles=[p]}
+    state.activeProfileId=state.profiles[0].id;
+    state.events=state.profiles[0].events||[];
+    state.looks=state.profiles[0].looks||[];
+    toast('DRESSED opened in temporary mode. Your browser is blocking local storage.');
+  }
+}
+async function saveCurrentProfile(){
+  if(!state.activeProfileId)return;
+  const p=state.profiles.find(x=>x.id===state.activeProfileId);
+  if(!p)return;
+  p.events=state.events.map(e=>({...e,stylePhotos:Array.isArray(e.stylePhotos)?e.stylePhotos:[],styleNotes:typeof e.styleNotes==='string'?e.styleNotes:''}));
+  p.looks=state.looks.map(l=>({...l,photos:Array.isArray(l.photos)&&l.photos.length?l.photos:(l.dataUrl?[l.dataUrl]:[]),dataUrl:l.dataUrl||(Array.isArray(l.photos)&&l.photos[0]||'')}));
+  await put('profiles',p);
+}
+async function switchProfile(id){const p=state.profiles.find(x=>x.id===id);if(!p)return;await saveCurrentProfile();state.activeProfileId=id;state.events=p.events||[];state.looks=p.looks||[];await put('settings',{id:'active-profile',value:id});updateProfileChip();closeSheet();render();toast('Switched to '+p.name)}
+function updateProfileChip(){const p=state.profiles.find(x=>x.id===state.activeProfileId)||{name:'Me',emoji:'☺'};const a=document.getElementById('profileAvatar'),n=document.getElementById('profileName');if(a)a.textContent=p.emoji||'☺';if(n)n.textContent=p.name||'Me'}
+function render(){const c=document.getElementById('content');if(state.tab==='home')c.innerHTML=homeView();else if(state.tab==='calendar')c.innerHTML=calendarView();else c.innerHTML=looksView();wire();updateProfileChip()}
+function homeView(){const future=[...state.events].sort((a,b)=>a.date.localeCompare(b.date)||startDate(a.date,a.time)-startDate(b.date,b.time));const grouped={};future.forEach(e=>(grouped[e.date]??=[]).push(e));return `<section class="hero"><div class="eyebrow">DRESSED / YOUR SOCIAL LIFE</div><h1>Ready when<br>you are.</h1><p>Upload an invitation — PDF, photo or video — and DRESSED reads it with a dedicated invitation reader, turning the fine print into clean, editable plans.</p><div class="quick"><button class="quick-card" type="button" data-action="add-invite"><span class="quick-icon">✦</span><span><div class="quick-title">Add Invitation</div><div class="quick-sub">PDF, photo or video</div></span></button><button class="quick-card alt" data-action="add-look"><span class="quick-icon">◒</span><span><div class="quick-title">Add a Look</div><div class="quick-sub">Save an outfit</div></span></button></div><div class="install" id="installCard"><div style="font-size:18px">⌂</div><div style="flex:1"><b>Put DRESSED on your iPhone</b><span>In Safari, tap Share → Add to Home Screen. It will open like an app.</span></div><button id="hideInstall">Got it</button></div><div style="font-size:10px;color:var(--muted);margin-top:11px">No OpenAI API key required. PDF, photo and video invitations are processed by the DRESSED reader.</div></section><div class="section-head"><h2>Upcoming</h2><span class="muted">${future.length} EVENT${future.length===1?'':'S'}</span></div>${future.length?Object.entries(grouped).slice(0,6).map(([date,items])=>dayBlock(date,items)).join(''):`<div class="empty"><strong>No plans yet.</strong><p>Your next invitation can become your first DRESSED calendar.</p></div>`}`}
+function dayBlock(date,items){return `<section class="day"><div class="day-head"><span class="day-date">${fmtDate(date,{weekday:'long',day:'numeric',month:'long'})}</span>${items.length>1?`<span class="conflict">${items.length} EVENTS · PRIORITY DAY</span>`:''}</div>${items.map(eventCard).join('')}</section>`}
+function eventCard(e){const p=parts(e.date);const look=state.looks.find(l=>l.id===e.lookId);const photos=look?(Array.isArray(look.photos)&&look.photos.length?look.photos:[look.dataUrl].filter(Boolean)):[];return `<article class="event"><div class="event-top"><div class="date-box"><div class="date-day">${p.day}</div><div class="date-month">${p.month}</div></div><div class="event-main"><div class="category">${esc(e.category||'SOCIAL EVENT')}</div><div class="event-name">${esc(e.name)}</div><div class="meta">${esc(timeDisplay(e.time))}${e.venue?' · '+esc(e.venue):''}</div></div></div>${(e.styleNotes||e.stylePhotos?.length)?`<div class="event-style"><div class="es-title">Outfit note</div>${e.styleNotes?`<div class="es-note">${esc(e.styleNotes)}</div>`:''}${e.stylePhotos?.length?`<div class="mini-grid">${e.stylePhotos.slice(0,4).map(x=>`<img src="${esc(x)}" alt="">`).join('')}</div>`:''}</div>`:''}<div class="event-foot"><span class="badge ${(e.priority||'Normal').toLowerCase()}">${esc(e.priority||'Normal')}</span><button class="look-pill" data-event-look="${esc(e.id)}">${look?`<img src="${esc(photos[0]||'')}" alt=""><span>${esc(look.name)}</span>`:'＋ ADD LOOK'}</button><button class="round-btn" style="width:32px;height:32px;box-shadow:none;background:#f4f1eb" data-event="${esc(e.id)}">›</button></div></article>`}
+function calendarView(){const months={};[...state.events].sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{const key=e.date.slice(0,7);(months[key]??=[]).push(e)});return `<section class="hero"><div class="eyebrow">DRESSED / CALENDAR</div><h1>Your social<br>calendar.</h1><p>Everything you have coming up, with your chosen look attached.</p></section>${Object.keys(months).length?Object.keys(months).sort().map(m=>`<section class="day"><div class="section-head" style="margin-top:0"><h2>${new Date(m+'-15T12:00:00').toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</h2></div>${months[m].map(eventCard).join('')}</section>`).join(''):`<div class="empty"><strong>Nothing on the calendar.</strong><p>Add an invitation and we'll build it for you.</p></div>`}`}
+function looksView(){return `<section class="hero"><div class="eyebrow">DRESSED / MY LOOKS</div><h1>Dress for<br>the plan.</h1><p>Save outfits once, then edit them anytime. Add multiple photos, notes and event-specific styling without losing your original look.</p></section><div class="look-grid"><button class="look-add" data-action="add-look" type="button"><div><strong>＋ Add a look</strong><p>Upload one or more outfit photos.</p></div></button>${state.looks.map(l=>{const photos=Array.isArray(l.photos)&&l.photos.length?l.photos:[l.dataUrl].filter(Boolean);return `<div class="look"><div style="position:relative"><img src="${esc(photos[0]||'')}" alt="${esc(l.name)}"><button type="button" class="edit-overlay" data-edit-look="${esc(l.id)}">EDIT</button></div><div class="look-body"><div class="look-name">${esc(l.name)}</div>${l.notes?`<div class="look-notes">${esc(l.notes)}</div>`:''}<div class="look-notes">${photos.length} photo${photos.length===1?'':'s'}</div></div><div class="look-card-actions"><button type="button" class="edit" data-edit-look="${esc(l.id)}">Edit look</button><button type="button" data-delete-look="${esc(l.id)}">Delete</button></div></div>`}).join('')}</div>`}
+
+function wire(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.tab===state.tab));render()});
+  document.querySelectorAll('[data-action="add-invite"]').forEach(b=>b.onclick=pickInviteFile);
+  document.querySelectorAll('[data-action="add-look"]').forEach(b=>b.onclick=()=>openAddLook());
+  document.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>openEvent(b.dataset.event));
+  document.querySelectorAll('[data-event-look]').forEach(b=>b.onclick=()=>openLookPicker(b.dataset.event));
+  document.querySelectorAll('[data-edit-look]').forEach(b=>b.onclick=()=>openAddLook(null,b.dataset.editLook));
+  document.querySelectorAll('[data-delete-look]').forEach(b=>b.onclick=()=>deleteLook(b.dataset.deleteLook));
+  const h=document.getElementById('hideInstall');const ic=document.getElementById('installCard');if(ic&&localStorage.getItem('dressed-hide-install')==='1')ic.remove();if(h)h.onclick=()=>{localStorage.setItem('dressed-hide-install','1');ic?.remove()};
+  const inv=document.getElementById('inviteFile');if(inv&&!inv.dataset.bound){inv.dataset.bound='1';inv.addEventListener('change',async()=>{const f=inv.files?.[0];inv.value='';if(f)await processInvite(f)})}
+  const lf=document.getElementById('lookFile');if(lf&&!lf.dataset.bound){lf.dataset.bound='1';lf.addEventListener('change',async()=>{const fs=[...(lf.files||[])];lf.value='';if(fs.length)await handleLookFiles(fs)})}
+  const ef=document.getElementById('eventPhotoFile');if(ef&&!ef.dataset.bound){ef.dataset.bound='1';ef.addEventListener('change',async()=>{const fs=[...(ef.files||[])];ef.value='';if(fs.length)await handleEventPhotoFiles(fs)})}
+}
+document.getElementById('settingsBtn').onclick=()=>openSettings();document.getElementById('profileBtn').onclick=()=>openProfiles();document.getElementById('addBtn')?.addEventListener('click',pickInviteFile);document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
+
+function pickInviteFile(){
+  const input=document.getElementById('inviteFile');
+  if(input) input.click();
+}
+
+// v17: stable boot + server-side invitation reader + fixed button bindings.
+async function processInvite(file){
+  state.sourceName=file.name||'Invitation';
+  try{
+    showLoader('READING YOUR INVITATION…');
+    progress('Uploading invitation for private local parsing…');
+    const fd=new FormData();fd.append('file',file,file.name||'invitation');
+    const res=await fetch('/api/extract',{method:'POST',body:fd});
+    const data=await res.json().catch(()=>({}));
+    hideLoader();progress('');
+    if(!res.ok) throw new Error(data.detail||'DRESSED could not read this invitation.');
+    const events=(data.events||[]).map(e=>({...e,styleNotes:'',stylePhotos:[],priority:e.priority||'Normal'}));
+    state.lastRead={sourceType:data.source_type||'',rawLines:data.raw_lines||[]};
+    if(!events.length){openNoEventReview(state.sourceName,(data.raw_lines||[]).join('\n'));return;}
+    let overall=data.overall_event_name||'';
+    if(!overall&&events.length===1)overall=events[0].name;
+    openReview({overall_event_name:overall,events},state.sourceName,false);
+  }catch(err){hideLoader();progress('');console.error(err);toast(err?.message||'Could not read that invitation.')}
+}
+
+// v15: explicit edit controls in My Looks and reliable one-shot binding.
+function wire(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.tab===state.tab));render()});
+  document.querySelectorAll('[data-action="add-invite"]').forEach(b=>b.onclick=pickInviteFile);
+  document.querySelectorAll('[data-action="add-look"]').forEach(b=>b.onclick=()=>openAddLook());
+  document.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>openEvent(b.dataset.event));
+  document.querySelectorAll('[data-event-look]').forEach(b=>b.onclick=()=>openLookPicker(b.dataset.event));
+  document.querySelectorAll('[data-edit-look]').forEach(b=>b.onclick=(ev)=>{ev.preventDefault();ev.stopPropagation();openAddLook(null,b.dataset.editLook)});
+  document.querySelectorAll('[data-delete-look]').forEach(b=>b.onclick=(ev)=>{ev.preventDefault();ev.stopPropagation();deleteLook(b.dataset.deleteLook)});
+  const h=document.getElementById('hideInstall');const ic=document.getElementById('installCard');if(ic&&localStorage.getItem('dressed-hide-install')==='1')ic.remove();if(h)h.onclick=()=>{localStorage.setItem('dressed-hide-install','1');ic?.remove()};
+  const inv=document.getElementById('inviteFile');if(inv&&!inv.dataset.bound){inv.dataset.bound='1';inv.addEventListener('change',async()=>{const f=inv.files?.[0];inv.value='';if(f)await processInvite(f)})}
+  const lf=document.getElementById('lookFile');if(lf&&!lf.dataset.bound){lf.dataset.bound='1';lf.addEventListener('change',async()=>{const fs=[...(lf.files||[])];lf.value='';if(fs.length)await handleLookFiles(fs)})}
+  const ef=document.getElementById('eventPhotoFile');if(ef&&!ef.dataset.bound){ef.dataset.bound='1';ef.addEventListener('change',async()=>{const fs=[...(ef.files||[])];ef.value='';if(fs.length)await handleEventPhotoFiles(fs)})}
+}
+
+
+// DRESSED stable startup: initialize storage, render the app, then bind all controls.
+window.addEventListener('DOMContentLoaded',async()=>{
+  try{
+    await initDB();
+    render();
+    const settings=document.getElementById('settingsBtn');
+    const profile=document.getElementById('profileBtn');
+    if(settings) settings.onclick=()=>openSettings();
+    if(profile) profile.onclick=()=>openProfiles();
+    const add=document.getElementById('addBtn');
+    if(add) add.onclick=pickInviteFile;
+    const sheet=document.getElementById('sheet');
+    if(sheet) sheet.addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
+  }catch(err){
+    console.error('DRESSED startup failed',err);
+    toast('DRESSED could not finish loading. Please refresh.');
+  }
+});
+</script>
+</body>
+</html>
