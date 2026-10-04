@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#171717" />
+  <meta name="dressed-version" content="17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DRESSED" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <title>DRESSED</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;--card:#fff;--ink:#171717;--muted:#807c74;--line:#e8e3da;--soft:#efebe3;
+      --shadow:0 10px 30px rgba(25,22,18,.055);--radius:22px;--accent:#8d8476;
+      --safe-bottom:env(safe-area-inset-bottom,0px);--safe-top:env(safe-area-inset-top,0px)
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
+    body{min-height:100vh}
+    button,input,select,textarea{font:inherit}
+    button{border:0;background:none;color:inherit}
+    .app{max-width:540px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
+    .top{padding:calc(14px + var(--safe-top)) 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 80%,transparent)}
+    .brand{font-weight:800;letter-spacing:6px;font-size:27px;line-height:1}
+    .tagline{font-size:9px;letter-spacing:1.6px;color:var(--muted);margin-top:6px}
+    .round-btn{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:var(--shadow)}
+    .content{padding:6px 20px calc(104px + var(--safe-bottom))}
+    .eyebrow{font-size:10px;letter-spacing:2.2px;font-weight:800;color:var(--accent)}
+    h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;font-weight:500;letter-spacing:-1px;margin:8px 0 0}
+    h2{font-family:Georgia,"Times New Roman",serif;font-size:28px;font-weight:500;margin:0}
+    p{color:var(--muted);line-height:1.5}
+    .hero{padding:12px 0 18px}
+    .hero p{font-size:14px;margin:10px 0 18px;max-width:390px}
+    .quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .quick-card{background:var(--ink);color:#fff;border-radius:20px;padding:16px 16px 14px;min-height:110px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
+    .quick-card.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .quick-icon{font-size:20px}.quick-title{font-weight:800;letter-spacing:.7px;font-size:12px;text-transform:uppercase}.quick-sub{font-size:11px;opacity:.65;margin-top:5px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin:22px 0 10px}
+    .section-head .muted{font-size:10px;letter-spacing:1.3px;color:var(--muted);text-transform:uppercase;font-weight:800}
+    .day{margin-bottom:17px}.day-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 8px}.day-date{font-size:11px;font-weight:800;letter-spacing:1.3px}.conflict{padding:5px 8px;background:#e7e1d6;border-radius:20px;font-size:8px;font-weight:800;letter-spacing:1px}
+    .event{background:#fff;border:1px solid rgba(0,0,0,.025);border-radius:20px;padding:15px;margin-bottom:10px;box-shadow:var(--shadow)}
+    .event-top{display:flex;gap:13px}.date-box{width:56px;min-width:56px;height:58px;border-radius:15px;background:#f0ede7;display:flex;flex-direction:column;align-items:center;justify-content:center}.date-day{font-size:20px;font-weight:800}.date-month{font-size:8px;letter-spacing:1.1px;color:var(--muted);margin-top:2px}.event-main{min-width:0}.category{font-size:9px;letter-spacing:1.5px;color:#998d7b;font-weight:800;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-name{font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.12;margin-top:4px}.meta{font-size:11px;color:var(--muted);margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}.badge{padding:6px 9px;border-radius:20px;font-size:8px;letter-spacing:1px;font-weight:800;text-transform:uppercase}.badge.high{background:#e9ddd8}.badge.medium{background:#e7e1d6}.badge.normal{background:#eeece7}.look-pill{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:1px;font-weight:800;text-transform:uppercase}.look-pill img{width:30px;height:30px;border-radius:10px;object-fit:cover}
+    .empty{border:1px dashed #d9d3ca;border-radius:20px;padding:28px 18px;text-align:center}.empty strong{font-family:Georgia,serif;font-size:23px;font-weight:500}.empty p{font-size:12px;margin:7px 0 0}
+    .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:30;width:min(540px,100%);padding:10px 16px calc(10px + var(--safe-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr 1fr 1fr;align-items:end}.nav-btn{font-size:10px;color:#9a968d;display:flex;align-items:center;flex-direction:column;gap:5px}.nav-btn.active{color:var(--ink);font-weight:800}.nav-plus{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;margin:-26px auto 0;font-size:24px;box-shadow:0 12px 30px rgba(0,0,0,.16)}
+    .sheet{position:fixed;inset:0;z-index:50;display:none;background:rgba(20,18,15,.38);align-items:flex-end}.sheet.open{display:flex}.panel{width:100%;max-width:540px;margin:0 auto;background:var(--bg);border-radius:28px 28px 0 0;padding:18px 20px calc(22px + var(--safe-bottom));max-height:91vh;overflow:auto}.grab{width:40px;height:5px;border-radius:5px;background:#d6d1c8;margin:0 auto 16px}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.panel-title{font-family:Georgia,serif;font-size:28px}.panel-sub{font-size:11px;color:var(--muted);margin-top:5px}.x{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center}.field{margin-top:12px}.label{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#7b766e;text-transform:uppercase;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:13px;padding:12px 13px;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:#b8b1a4}.textarea{min-height:74px;resize:vertical}.primary{width:100%;height:52px;background:var(--ink);color:#fff;border-radius:26px;margin-top:16px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;font-size:10px}.outline{width:100%;height:50px;border:1px solid var(--ink);border-radius:25px;margin-top:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;font-size:10px}.danger{color:#9a4b40;font-weight:800;letter-spacing:1px;font-size:10px;text-transform:uppercase;padding:14px 0}.upload-area{border:1px dashed #d4cec4;border-radius:18px;background:#fff;padding:19px;text-align:center}.upload-area strong{font-size:14px}.upload-area p{font-size:11px;margin:5px 0 0}.file-name{margin-top:8px;font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.review-list{margin-top:12px}.review-card{background:#fff;border-radius:18px;padding:14px;margin-bottom:10px;border:1px solid var(--line)}.review-top{display:flex;gap:11px}.review-date{width:50px;height:50px;background:#f0ede7;border-radius:14px;display:grid;place-items:center;align-content:center}.review-date b{font-size:17px}.review-date span{font-size:8px;color:var(--muted);letter-spacing:1px}.review-title{font-family:Georgia,serif;font-size:19px}.review-category{font-size:8px;color:#998d7b;letter-spacing:1.2px;font-weight:800;margin-top:3px}.review-meta{font-size:10px;color:var(--muted);margin-top:7px}.priority-row{display:flex;gap:7px;margin-top:10px}.pbtn{flex:1;height:33px;border-radius:18px;border:1px solid var(--line);font-size:8px;letter-spacing:.8px;font-weight:800}.pbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .look-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:15px}.look{background:#fff;border-radius:17px;overflow:hidden;border:1px solid rgba(0,0,0,.025);box-shadow:var(--shadow)}.look img{display:block;width:100%;aspect-ratio:1/1.18;object-fit:cover}.look-body{padding:11px}.look-name{font-size:13px;font-weight:800}.look-notes{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.3}.look-add{background:#fff;border:1px dashed #d4cec4;border-radius:17px;min-height:220px;display:grid;place-items:center;text-align:center;padding:15px}.look-add strong{font-size:13px}.look-add p{font-size:10px;margin:5px 0 0}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.choice{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:left}.choice.selected{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}.choice img{width:100%;aspect-ratio:1/1.1;display:block;object-fit:cover}.choice div{padding:9px;font-size:10px;font-weight:800}.small-actions{display:flex;gap:8px}.small-actions button{flex:1;height:43px;border-radius:22px;border:1px solid var(--line);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.small-actions .solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#171717;color:#fff;padding:11px 14px;border-radius:18px;font-size:11px;z-index:80;display:none;max-width:88%;text-align:center}.toast.show{display:block}
+    .loader{display:none;position:fixed;inset:0;z-index:100;background:rgba(247,245,239,.72);backdrop-filter:blur(8px);place-items:center}.loader.show{display:grid}.loader-card{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:18px 19px;display:flex;gap:11px;align-items:center;font-size:11px;letter-spacing:1px;font-weight:800}.spinner{width:18px;height:18px;border-radius:50%;border:2px solid #ddd;border-top-color:#171717;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .install{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;margin-top:14px;display:flex;gap:10px;align-items:flex-start}.install b{font-size:11px}.install span{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.4}.install button{font-size:9px;letter-spacing:1px;font-weight:800;text-transform:uppercase;white-space:nowrap}
+    .hidden{position:absolute!important;opacity:0!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}.file-label{cursor:pointer}.profile-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px 6px 6px;box-shadow:var(--shadow);font-size:10px;font-weight:800}.profile-avatar{width:28px;height:28px;border-radius:50%;background:#f0ede7;display:grid;place-items:center;font-size:14px}.profile-name{max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-list{display:grid;gap:9px;margin-top:12px}.profile-item{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.profile-item.active{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}.profile-item .pi-meta{flex:1}.profile-item .pi-name{font-size:12px;font-weight:800}.profile-item .pi-sub{font-size:9px;color:var(--muted);margin-top:3px}.profile-item button{font-size:9px;letter-spacing:.8px;font-weight:800;text-transform:uppercase}.profile-add{margin-top:10px;display:flex;gap:8px}.profile-add input{flex:1}.profile-delete{color:#9a4b40}
+  
+
+    .photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.photo-thumb{position:relative;border-radius:14px;overflow:hidden;background:#eee}.photo-thumb img{display:block;width:100%;aspect-ratio:1/1.1;object-fit:cover}.photo-thumb .remove{position:absolute;right:5px;top:5px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.92);font-weight:800}.look-card-actions{display:flex;gap:7px;padding:0 10px 10px}.look-card-actions button{flex:1;border:1px solid var(--line);border-radius:18px;height:34px;font-size:8px;letter-spacing:.9px;font-weight:800;text-transform:uppercase}.event-style{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:10px}.event-style .es-title{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;color:#817b72}.event-style .es-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4}.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.mini-grid img{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;display:block}
+    .ocr-progress{position:fixed;left:50%;transform:translateX(-50%);top:calc(76px + var(--safe-top));z-index:70;background:#171717;color:#fff;padding:9px 12px;border-radius:16px;font-size:10px;letter-spacing:.7px;display:none;max-width:88%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.15)}.ocr-progress.show{display:block}
+.look-card-actions button{cursor:pointer;touch-action:manipulation}.look-card-actions .edit{background:#171717;color:#fff;border-color:#171717}.look-card-actions .edit:active{transform:scale(.98)}.look{position:relative}.source-note{font-size:10px;color:var(--muted);line-height:1.4;margin-top:10px}.read-status{background:#f0ede7;border-radius:14px;padding:10px 12px;font-size:10px;color:#6d685f;margin-top:10px}.raw-toggle{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-top:9px}.raw-text{white-space:pre-wrap;background:#1b1b1b;color:#f4f1eb;border-radius:14px;padding:12px;font-size:9px;line-height:1.45;max-height:180px;overflow:auto;margin-top:8px}.edit-overlay{position:absolute;right:9px;bottom:9px;background:rgba(23,23,23,.92);color:#fff;border-radius:18px;padding:8px 11px;font-size:8px;font-weight:800;letter-spacing:1.2px;box-shadow:0 5px 15px rgba(0,0,0,.18)}.edit-overlay:active{transform:scale(.98)}</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div><div class="brand">DRESSED</div><div class="tagline">YOUR PLANS. YOUR PEOPLE. YOUR LOOK.</div></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <button class="profile-chip" id="profileBtn" aria-label="Switch profile"><span class="profile-avatar" id="profileAvatar">☺</span><span class="profile-name" id="profileName">Me</span>⌄</button>
+      <button class="round-btn" id="settingsBtn" aria-label="Settings">⚙︎</button>
+    </div>
+  </header>
+
+  <main class="content" id="content">
+  <section class="hero" id="bootHome">
+    <div class="eyebrow">DRESSED / YOUR SOCIAL LIFE</div>
+    <h1>Ready when<br>you are.</h1>
+    <p>Upload an invitation — PDF, photo or video — and DRESSED turns it into clean, editable plans.</p>
+    <div class="quick">
+      <button class="quick-card" type="button" data-action="add-invite"><span class="quick-icon">✦</span><span><div class="quick-title">Add Invitation</div><div class="quick-sub">PDF, photo or video</div></span></button>
+      <button class="quick-card alt" type="button" data-action="add-look"><span class="quick-icon">◒</span><span><div class="quick-title">Add a Look</div><div class="quick-sub">Save an outfit</div></span></button>
+    </div>
+    <div class="section-head"><h2>Upcoming</h2><span class="muted">0 EVENTS</span></div>
+    <div class="empty"><strong>No plans yet.</strong><p>Your next invitation can become your first DRESSED calendar.</p></div>
+  </section>
+</main>
+
+  <nav class="nav">
+    <button class="nav-btn active" data-tab="home"><span style="font-size:19px">⌂</span><span>HOME</span></button>
+    <button class="nav-btn" data-tab="calendar"><span style="font-size:18px">▦</span><span>CALENDAR</span></button>
+    <button class="nav-plus" id="addBtn" aria-label="Add invitation">＋</button>
+    <button class="nav-btn" data-tab="looks"><span style="font-size:18px">◌</span><span>MY LOOKS</span></button>
+  </nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+<div class="loader" id="loader"><div class="loader-card"><span class="spinner"></span><span id="loaderText">READING YOUR INVITATION…</span></div></div>
+<div class="toast" id="toast"></div>
+<div id="ocrProgress" class="ocr-progress" aria-live="polite"></div>
+
+<input id="inviteFile" type="file" accept="application/pdf,.pdf,image/*,video/*,.mp4,.mov,.m4v,.webm" class="hidden" aria-label="Choose invitation">
+<input id="lookFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" multiple class="hidden" aria-label="Choose outfit photo">
+<input id="eventPhotoFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" multiple class="hidden" aria-label="Add event outfit photos">
+
+<script>
+
+let readersReady=false;
+function loadExternalScript(src){return new Promise((resolve,reject)=>{const existing=[...document.scripts].find(s=>s.src===src);if(existing&&((window.pdfjsLib&&src.includes('pdf.min.js'))||(window.Tesseract&&src.includes('tesseract.min.js')))){resolve();return}const tag=document.createElement('script');tag.src=src;tag.async=true;tag.onload=()=>resolve();tag.onerror=()=>reject(new Error('Could not load the invitation reader. Check your internet connection and refresh the page.'));document.head.appendChild(tag)})}
+async function ensureReaders(){if(readersReady&&window.pdfjsLib&&window.Tesseract)return;try{if(!window.pdfjsLib)await loadExternalScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js');if(!window.Tesseract)await loadExternalScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js');if(window.pdfjsLib?.GlobalWorkerOptions)window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';readersReady=true}catch(err){throw new Error('The invitation reader could not load. Please refresh DRESSED and try again.')}}
+const state={tab:'home',events:[],looks:[],review:null,sourceName:'',selectedEvent:null,lookForEvent:null,selectedLook:null,pendingLook:null,pendingLookPhotos:[],pendingLookContext:null,editLookId:null,profiles:[],activeProfileId:null};
+const DB_NAME='dressed-private-v5';
+const DB_VERSION=1;
+let db=null;
+let storageMode='idb';
+const memoryStore={profiles:[],settings:[]};
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function fmtDate(date,opts={weekday:'short',day:'2-digit',month:'short'}){return new Date(date+'T12:00:00').toLocaleDateString('en-IN',opts).toUpperCase()}
+function parts(date){const d=new Date(date+'T12:00:00');return {day:d.getDate(),month:d.toLocaleDateString('en-IN',{month:'short'}).toUpperCase()}}
+function timeDisplay(t){const m=String(t||'').match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);if(!m)return t||'';if(!m[3])return t;return `${m[1]}:${m[2]||'00'} ${m[3].toUpperCase()}`+(String(t).toLowerCase().includes('onwards')?' onwards':'')}
+function startDate(date,time){let m=String(time||'').match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);let h=m?Number(m[1]):19,mi=m?Number(m[2]||0):0,ap=m?.[3]?.toUpperCase();if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return new Date(`${date}T${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}:00`)}
+function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function showLoader(msg){document.getElementById('loaderText').textContent=msg;document.getElementById('loader').classList.add('show')}
+function hideLoader(){document.getElementById('loader').classList.remove('show')}
+function progress(msg){const el=document.getElementById('ocrProgress');if(!el)return;el.textContent=msg||'';el.classList.toggle('show',!!msg)}
+function openSheet(html){document.getElementById('panel').innerHTML=html;document.getElementById('sheet').classList.add('open');document.querySelectorAll('[data-close-sheet]').forEach(x=>x.onclick=closeSheet)}
+function closeSheet(){document.getElementById('sheet').classList.remove('open');state.selectedEvent=null;state.lookForEvent=null;state.selectedLook=null;state.pendingLook=null;state.pendingLookPhotos=[];state.pendingLookContext=null;state.editLookId=null}
+function uid(prefix='id'){return prefix+'_'+Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function profileKey(){return state.activeProfileId||'default'}
+
+function memGetAll(store){return (memoryStore[store]||[]).slice()}
+function memGet(store,key){return (memoryStore[store]||[]).find(x=>x.id===key||x.key===key)||null}
+function memPut(store,item){const arr=memoryStore[store]||[];const idx=arr.findIndex(x=>(x.id||x.key)===(item.id||item.key));if(idx>=0)arr[idx]=item;else arr.push(item);memoryStore[store]=arr;return item}
+function put(store,item){if(storageMode!=='idb')return Promise.resolve(memPut(store,item));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(item);tx.oncomplete=()=>resolve(item);tx.onerror=()=>reject(tx.error||new Error('Storage write failed'));tx.onabort=()=>reject(tx.error||new Error('Storage write aborted'))}catch(e){storageMode='memory';memPut(store,item);resolve(item)}})}
+function get(store,key){if(storageMode!=='idb')return Promise.resolve(memGet(store,key));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error||new Error('Storage read failed'))}catch(e){storageMode='memory';resolve(memGet(store,key))}})}
+function getAll(store){if(storageMode!=='idb')return Promise.resolve(memGetAll(store));return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readonly');const req=tx.objectStore(store).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error||new Error('Storage read failed'))}catch(e){storageMode='memory';resolve(memGetAll(store))}})}
+
+async function importOldProfiles(){
+  let imported=[];
+  try{
+    const oldReq=indexedDB.open('dressed-private-v4',1);
+    await new Promise(resolve=>{
+      oldReq.onsuccess=()=>{
+        try{
+          const od=oldReq.result;
+          if(!od.objectStoreNames.contains('profiles')){od.close();resolve();return;}
+          const tx=od.transaction('profiles','readonly');
+          const q=tx.objectStore('profiles').getAll();
+          q.onsuccess=()=>{imported=q.result||[];od.close();resolve()};
+          q.onerror=()=>{od.close();resolve()};
+        }catch(_){resolve()}
+      };
+      oldReq.onerror=()=>resolve();
+      oldReq.onblocked=()=>resolve();
+    });
+  }catch(_){ }
+  return imported;
+}
+
+async function initDB(){
+  try{
+    if(!('indexedDB' in window)) throw new Error('IndexedDB unavailable');
+    db=await new Promise((resolve,reject)=>{
+      const req=indexedDB.open(DB_NAME,DB_VERSION);
+      req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains('profiles'))d.createObjectStore('profiles',{keyPath:'id'});if(!d.objectStoreNames.contains('settings'))d.createObjectStore('settings',{keyPath:'id'});};
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error||new Error('Could not open IndexedDB'));
+      req.onblocked=()=>reject(new Error('Database is blocked'));
+    });
+    storageMode='idb';
+    let ps=await getAll('profiles');
+    if(!ps.length){
+      let old=await importOldProfiles();
+      if(old.length){for(const p of old) await put('profiles',p);ps=old;}
+      else{const p={id:uid('profile'),name:'Me',emoji:'☺',events:[],looks:[]};await put('profiles',p);ps=[p]}
+    }
+    state.profiles=ps;
+    let active=(await get('settings','active-profile'))?.value || ps[0].id;
+    if(!ps.some(p=>p.id===active)) active=ps[0].id;
+    state.activeProfileId=active;
+    await put('settings',{id:'active-profile',value:active});
+    const activeP=ps.find(p=>p.id===active)||ps[0];
+    state.events=Array.isArray(activeP.events)?activeP.events:[];
+    state.looks=Array.isArray(activeP.looks)?activeP.looks:[];
+    state.looks.forEach(l=>{if(!Array.isArray(l.photos))l.photos=l.dataUrl?[l.dataUrl]:[];if(!l.dataUrl&&l.photos[0])l.dataUrl=l.photos[0]});
+    state.events.forEach(e=>{if(!Array.isArray(e.stylePhotos))e.stylePhotos=[];if(typeof e.styleNotes!=='string')e.styleNotes=''});
+    return;
+  }catch(err){
+    storageMode='memory';db=null;
+    state.profiles=memoryStore.profiles;
+    if(!state.profiles.length){const p={id:uid('profile'),name:'Me',emoji:'☺',events:[],looks:[]};memPut('profiles',p);state.profiles=[p]}
+    state.activeProfileId=state.profiles[0].id;
+    state.events=state.profiles[0].events||[];
+    state.looks=state.profiles[0].looks||[];
+    toast('DRESSED opened in temporary mode. Your browser is blocking local storage.');
+  }
+}
+async function saveCurrentProfile(){
+  if(!state.activeProfileId)return;
+  const p=state.profiles.find(x=>x.id===state.activeProfileId);
+  if(!p)return;
+  p.events=state.events.map(e=>({...e,stylePhotos:Array.isArray(e.stylePhotos)?e.stylePhotos:[],styleNotes:typeof e.styleNotes==='string'?e.styleNotes:''}));
+  p.looks=state.looks.map(l=>({...l,photos:Array.isArray(l.photos)&&l.photos.length?l.photos:(l.dataUrl?[l.dataUrl]:[]),dataUrl:l.dataUrl||(Array.isArray(l.photos)&&l.photos[0]||'')}));
+  await put('profiles',p);
+}
+async function switchProfile(id){const p=state.profiles.find(x=>x.id===id);if(!p)return;await saveCurrentProfile();state.activeProfileId=id;state.events=p.events||[];state.looks=p.looks||[];await put('settings',{id:'active-profile',value:id});updateProfileChip();closeSheet();render();toast('Switched to '+p.name)}
+function updateProfileChip(){const p=state.profiles.find(x=>x.id===state.activeProfileId)||{name:'Me',emoji:'☺'};const a=document.getElementById('profileAvatar'),n=document.getElementById('profileName');if(a)a.textContent=p.emoji||'☺';if(n)n.textContent=p.name||'Me'}
+function render(){const c=document.getElementById('content');if(state.tab==='home')c.innerHTML=homeView();else if(state.tab==='calendar')c.innerHTML=calendarView();else c.innerHTML=looksView();wire();updateProfileChip()}
+function homeView(){const future=[...state.events].sort((a,b)=>a.date.localeCompare(b.date)||startDate(a.date,a.time)-startDate(b.date,b.time));const grouped={};future.forEach(e=>(grouped[e.date]??=[]).push(e));return `<section class="hero"><div class="eyebrow">DRESSED / YOUR SOCIAL LIFE</div><h1>Ready when<br>you are.</h1><p>Upload an invitation — PDF, photo or video — and DRESSED reads it with a dedicated invitation reader, turning the fine print into clean, editable plans.</p><div class="quick"><button class="quick-card" type="button" data-action="add-invite"><span class="quick-icon">✦</span><span><div class="quick-title">Add Invitation</div><div class="quick-sub">PDF, photo or video</div></span></button><button class="quick-card alt" data-action="add-look"><span class="quick-icon">◒</span><span><div class="quick-title">Add a Look</div><div class="quick-sub">Save an outfit</div></span></button></div><div class="install" id="installCard"><div style="font-size:18px">⌂</div><div style="flex:1"><b>Put DRESSED on your iPhone</b><span>In Safari, tap Share → Add to Home Screen. It will open like an app.</span></div><button id="hideInstall">Got it</button></div><div style="font-size:10px;color:var(--muted);margin-top:11px">No OpenAI API key required. PDF, photo and video invitations are processed by the DRESSED reader.</div></section><div class="section-head"><h2>Upcoming</h2><span class="muted">${future.length} EVENT${future.length===1?'':'S'}</span></div>${future.length?Object.entries(grouped).slice(0,6).map(([date,items])=>dayBlock(date,items)).join(''):`<div class="empty"><strong>No plans yet.</strong><p>Your next invitation can become your first DRESSED calendar.</p></div>`}`}
+function dayBlock(date,items){return `<section class="day"><div class="day-head"><span class="day-date">${fmtDate(date,{weekday:'long',day:'numeric',month:'long'})}</span>${items.length>1?`<span class="conflict">${items.length} EVENTS · PRIORITY DAY</span>`:''}</div>${items.map(eventCard).join('')}</section>`}
+function eventCard(e){const p=parts(e.date);const look=state.looks.find(l=>l.id===e.lookId);const photos=look?(Array.isArray(look.photos)&&look.photos.length?look.photos:[look.dataUrl].filter(Boolean)):[];return `<article class="event"><div class="event-top"><div class="date-box"><div class="date-day">${p.day}</div><div class="date-month">${p.month}</div></div><div class="event-main"><div class="category">${esc(e.category||'SOCIAL EVENT')}</div><div class="event-name">${esc(e.name)}</div><div class="meta">${esc(timeDisplay(e.time))}${e.venue?' · '+esc(e.venue):''}</div></div></div>${(e.styleNotes||e.stylePhotos?.length)?`<div class="event-style"><div class="es-title">Outfit note</div>${e.styleNotes?`<div class="es-note">${esc(e.styleNotes)}</div>`:''}${e.stylePhotos?.length?`<div class="mini-grid">${e.stylePhotos.slice(0,4).map(x=>`<img src="${esc(x)}" alt="">`).join('')}</div>`:''}</div>`:''}<div class="event-foot"><span class="badge ${(e.priority||'Normal').toLowerCase()}">${esc(e.priority||'Normal')}</span><button class="look-pill" data-event-look="${esc(e.id)}">${look?`<img src="${esc(photos[0]||'')}" alt=""><span>${esc(look.name)}</span>`:'＋ ADD LOOK'}</button><button class="round-btn" style="width:32px;height:32px;box-shadow:none;background:#f4f1eb" data-event="${esc(e.id)}">›</button></div></article>`}
+function calendarView(){const months={};[...state.events].sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{const key=e.date.slice(0,7);(months[key]??=[]).push(e)});return `<section class="hero"><div class="eyebrow">DRESSED / CALENDAR</div><h1>Your social<br>calendar.</h1><p>Everything you have coming up, with your chosen look attached.</p></section>${Object.keys(months).length?Object.keys(months).sort().map(m=>`<section class="day"><div class="section-head" style="margin-top:0"><h2>${new Date(m+'-15T12:00:00').toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</h2></div>${months[m].map(eventCard).join('')}</section>`).join(''):`<div class="empty"><strong>Nothing on the calendar.</strong><p>Add an invitation and we'll build it for you.</p></div>`}`}
+function looksView(){return `<section class="hero"><div class="eyebrow">DRESSED / MY LOOKS</div><h1>Dress for<br>the plan.</h1><p>Save outfits once, then edit them anytime. Add multiple photos, notes and event-specific styling without losing your original look.</p></section><div class="look-grid"><button class="look-add" data-action="add-look" type="button"><div><strong>＋ Add a look</strong><p>Upload one or more outfit photos.</p></div></button>${state.looks.map(l=>{const photos=Array.isArray(l.photos)&&l.photos.length?l.photos:[l.dataUrl].filter(Boolean);return `<div class="look"><div style="position:relative"><img src="${esc(photos[0]||'')}" alt="${esc(l.name)}"><button type="button" class="edit-overlay" data-edit-look="${esc(l.id)}">EDIT</button></div><div class="look-body"><div class="look-name">${esc(l.name)}</div>${l.notes?`<div class="look-notes">${esc(l.notes)}</div>`:''}<div class="look-notes">${photos.length} photo${photos.length===1?'':'s'}</div></div><div class="look-card-actions"><button type="button" class="edit" data-edit-look="${esc(l.id)}">Edit look</button><button type="button" data-delete-look="${esc(l.id)}">Delete</button></div></div>`}).join('')}</div>`}
+
+function wire(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.tab===state.tab));render()});
+  document.querySelectorAll('[data-action="add-invite"]').forEach(b=>b.onclick=pickInviteFile);
+  document.querySelectorAll('[data-action="add-look"]').forEach(b=>b.onclick=()=>openAddLook());
+  document.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>openEvent(b.dataset.event));
+  document.querySelectorAll('[data-event-look]').forEach(b=>b.onclick=()=>openLookPicker(b.dataset.event));
+  document.querySelectorAll('[data-edit-look]').forEach(b=>b.onclick=()=>openAddLook(null,b.dataset.editLook));
+  document.querySelectorAll('[data-delete-look]').forEach(b=>b.onclick=()=>deleteLook(b.dataset.deleteLook));
+  const h=document.getElementById('hideInstall');if(h)h.onclick=()=>document.getElementById('installCard')?.remove();
+  const inv=document.getElementById('inviteFile');if(inv&&!inv.dataset.bound){inv.dataset.bound='1';inv.addEventListener('change',async()=>{const f=inv.files?.[0];inv.value='';if(f)await processInvite(f)})}
+  const lf=document.getElementById('lookFile');if(lf&&!lf.dataset.bound){lf.dataset.bound='1';lf.addEventListener('change',async()=>{const fs=[...(lf.files||[])];lf.value='';if(fs.length)await handleLookFiles(fs)})}
+  const ef=document.getElementById('eventPhotoFile');if(ef&&!ef.dataset.bound){ef.dataset.bound='1';ef.addEventListener('change',async()=>{const fs=[...(ef.files||[])];ef.value='';if(fs.length)await handleEventPhotoFiles(fs)})}
+}
+document.getElementById('settingsBtn').onclick=()=>openSettings();document.getElementById('profileBtn').onclick=()=>openProfiles();document.getElementById('addBtn')?.addEventListener('click',pickInviteFile);document.getElementById('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
+
+async function processInvite(file){
+  state.sourceName=file.name||'Invitation';
+  try{
+    showLoader('READING YOUR INVITATION…');
+    progress('Preparing invitation reader…');
+    await ensureReaders();
+    let ocrResult; const type=(file.type||'').toLowerCase(),name=String(file.name||'');
+    if(type==='application/pdf'||/\.pdf$/i.test(name)) ocrResult=await extractPdfOCR(file);
+    else if(type.startsWith('video/')||/\.(mp4|mov|webm|m4v)$/i.test(name)) ocrResult=await extractVideoOCR(file);
+    else if(type.startsWith('image/')) ocrResult=await extractImageOCR(file);
+    else throw new Error('Please choose a PDF, photo or video invitation.');
+    progress('Understanding the invitation…');
+    const parsed=parseInvitation(ocrResult);
+    hideLoader();progress('');
+    if(!parsed.events.length){openNoEventReview(state.sourceName,ocrResult.text||'');return;}
+    openReview(parsed,state.sourceName,false);
+  }catch(err){hideLoader();progress('');console.error(err);toast(err?.message||'Could not read that invitation.')}}
+function normalizeOcrLine(s){
+  let v=String(s||'').replace(/\u00a0/g,' ').replace(/[“”]/g,'"').replace(/[’‘]/g,"'").replace(/[–—]/g,'-');
+  v=v.replace(/\|/g,' | ').replace(/[{}\[\]<>]/g,' ');
+  return v.replace(/\s+/g,' ').trim();
+}
+function parseTsvLayout(tsv){
+  const rows=[]; if(!tsv)return rows; const grouped=new Map();
+  const src=String(tsv).split(/\r?\n/);
+  for(let i=1;i<src.length;i++){
+    const p=src[i].split('\t'); if(p.length<12)continue;
+    const page=Number(p[1]),block=Number(p[2]),par=Number(p[3]),line=Number(p[4]),left=Number(p[6]),top=Number(p[7]),width=Number(p[8]),height=Number(p[9]),conf=Number(p[10]),tx=normalizeOcrLine(p[11]);
+    if(!tx||!Number.isFinite(top)||!Number.isFinite(height))continue;
+    const key=`${page}:${block}:${par}:${line}`;
+    if(!grouped.has(key))grouped.set(key,{page,block,par,line,top,height,confidences:[],words:[]});
+    const g=grouped.get(key); g.top=Math.min(g.top,top); g.height=Math.max(g.height,height); if(Number.isFinite(conf)&&conf>=0)g.confidences.push(conf); g.words.push({text:tx,left,top,width,height,conf});
+  }
+  for(const g of grouped.values()){
+    g.words.sort((a,b)=>a.left-b.left); g.text=normalizeOcrLine(g.words.map(w=>w.text).join(' ')); g.confidence=g.confidences.length?g.confidences.reduce((a,b)=>a+b,0)/g.confidences.length:0; if(g.text)rows.push(g);
+  }
+  rows.sort((a,b)=>a.page-b.page||a.top-b.top); return rows;
+}
+async function tesseractLayout(image,label,psm='11'){
+  const {data}=await Tesseract.recognize(image,'eng',{logger:m=>{if(m.status&&m.progress)progress(`${label}: ${m.status} ${Math.round(m.progress*100)}%`)},tessedit_pageseg_mode:psm,workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@5/tesseract-core.wasm.js',langPath:'https://tessdata.projectnaptha.com/4.0.0_best_int/'});
+  const lines=parseTsvLayout(data.tsv||'');
+  return {text:normalizeInvitationText(lines.length?lines.map(x=>x.text).join('\n'):String(data.text||'')),lines,confidence:Number(data.confidence||0)};
+}
+function makeOcrCanvas(source,{scale=2.2,crop=null,contrast=1.28}={}){
+  const sw=source.naturalWidth||source.videoWidth||source.width, sh=source.naturalHeight||source.videoHeight||source.height;
+  let sx=0,sy=0,cw=sw,ch=sh; if(crop){sx=Math.round(sw*crop.x);sy=Math.round(sh*crop.y);cw=Math.round(sw*crop.w);ch=Math.round(sh*crop.h)}
+  const canvas=document.createElement('canvas'); canvas.width=Math.max(900,Math.round(cw*scale)); canvas.height=Math.max(700,Math.round(ch*scale));
+  const ctx=canvas.getContext('2d',{willReadFrequently:true}); ctx.drawImage(source,sx,sy,cw,ch,0,0,canvas.width,canvas.height);
+  const id=ctx.getImageData(0,0,canvas.width,canvas.height); const d=id.data;
+  for(let i=0;i<d.length;i+=4){const y=.299*d[i]+.587*d[i+1]+.114*d[i+2];const c=Math.max(0,Math.min(255,(y-128)*contrast+128));d[i]=d[i+1]=d[i+2]=c}
+  ctx.putImageData(id,0,0); return canvas;
+}
+async function extractImageOCR(file){
+  progress('Opening invitation image…'); const img=await loadImage(file); const results=[];
+  const passes=[
+    {canvas:makeOcrCanvas(img,{scale:2.0,contrast:1.2}),label:'Reading full invitation',psm:'11'},
+    {canvas:makeOcrCanvas(img,{scale:2.6,contrast:1.35,crop:{x:.04,y:.02,w:.92,h:.55}}),label:'Reading invitation title',psm:'6'},
+    {canvas:makeOcrCanvas(img,{scale:2.6,contrast:1.35,crop:{x:.04,y:.43,w:.92,h:.54}}),label:'Reading date and venue',psm:'6'}
+  ];
+  for(const p of passes){const r=await tesseractLayout(p.canvas,p.label,p.psm);if(r.lines.length)results.push(r)}
+  return mergeOcrResults(results);
+}
+async function extractPdfOCR(file){
+  progress('Opening PDF…');let pdf;
+  try{const data=await file.arrayBuffer();pdf=await pdfjsLib.getDocument({data,verbosity:0}).promise}catch(_){throw new Error('DRESSED could not open this PDF. Please try saving it to Files and upload it again.')}
+  const results=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    progress(`Reading PDF page ${i} of ${pdf.numPages}…`);const page=await pdf.getPage(i);
+    let nativeText='';try{const tc=await page.getTextContent({normalizeWhitespace:true,disableCombineTextItems:false});nativeText=normalizePdfTextItemsDetailed(tc.items,i);if(nativeText.trim())results.push({text:nativeText,lines:nativeText.split(/\n+/).filter(Boolean).map((t,j)=>({text:t,page:i,top:j*20,height:20,confidence:100}))})}catch(_){ }
+    const nativeLooksUsable=/\b(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*\b/i.test(nativeText)&&/\b\d{1,2}(?::\d{2})?\s*(?:AM|PM)\b/i.test(nativeText);
+    if(!nativeLooksUsable){try{const viewport=page.getViewport({scale:2});const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;const r=await tesseractLayout(makeOcrCanvas(canvas,{scale:1,contrast:1.18}),`OCR page ${i}`,'11');if(r.lines.length)results.push(r)}catch(_){ }}
+  }
+  const merged=mergeOcrResults(results);if(!merged.lines.length&&!merged.text.trim())throw new Error('No readable text was found in this PDF. Try a clear photo or screenshot of the invitation.');return merged;
+}
+function normalizePdfTextItemsDetailed(items,page){const rows=[];for(const it of items||[]){const tx=String(it.str||'').trim();if(!tx)continue;const tr=it.transform||[];rows.push({x:Number(tr[4]||0),y:Number(tr[5]||0),tx,font:Number(it.height||tr[0]||20)})}rows.sort((a,b)=>b.y-a.y||a.x-b.x);const groups=[];for(const r of rows){let g=groups.find(z=>Math.abs(z.y-r.y)<=3);if(!g){g={y:r.y,items:[]};groups.push(g)}g.items.push(r)}groups.sort((a,b)=>b.y-a.y);return groups.map((g,i)=>({text:g.items.sort((a,b)=>a.x-b.x).map(x=>x.tx).join(' '),page,top:i*20,height:Math.max(...g.items.map(x=>x.font||20),20),confidence:100})).map(x=>x.text).filter(Boolean).join('\n')}
+async function extractVideoOCR(file){
+  progress('Opening invitation video…');const url=URL.createObjectURL(file),video=document.createElement('video');video.preload='auto';video.muted=true;video.defaultMuted=true;video.playsInline=true;video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');video.src=url;
+  try{
+    await new Promise((resolve,reject)=>{let done=false;const ok=()=>{if(!done){done=true;resolve()}};const bad=()=>{if(!done){done=true;reject(new Error('This video could not be opened by your browser. Please use MP4/MOV or upload a clear screenshot.'))}};video.addEventListener('loadedmetadata',ok,{once:true});video.addEventListener('error',bad,{once:true});video.load();setTimeout(()=>{if(video.readyState>=1)ok()},9000)});
+    if(video.readyState<2)await new Promise((resolve,reject)=>{let done=false;const ok=()=>{if(done)return;done=true;cleanup();resolve()};const bad=()=>{if(done)return;done=true;cleanup();reject(new Error('The video is not ready to be read.'))};const cleanup=()=>{video.removeEventListener('loadeddata',ok);video.removeEventListener('error',bad)};video.addEventListener('loadeddata',ok,{once:true});video.addEventListener('error',bad,{once:true});setTimeout(()=>{if(video.readyState>=2)ok();else bad()},9000)});
+    const duration=Number(video.duration||0);if(!isFinite(duration)||duration<=0)throw new Error('The video has no readable duration.');const count=Math.min(10,Math.max(6,Math.ceil(duration/3)));const times=[...Array(count)].map((_,i)=>count===1 ? .1 : Math.min(Math.max(.05,duration*i/(count-1)),Math.max(.05,duration-.05)));
+    const bw=video.videoWidth||1280,bh=video.videoHeight||720,scale=Math.min(1.25,1600/bw),canvas=document.createElement('canvas');canvas.width=Math.max(1000,Math.round(bw*scale));canvas.height=Math.max(700,Math.round(bh*scale));const ctx=canvas.getContext('2d',{willReadFrequently:true}),results=[];
+    for(let i=0;i<times.length;i++){progress(`Reading video frame ${i+1} of ${times.length}…`);await seekVideoRobust(video,times[i]);ctx.drawImage(video,0,0,canvas.width,canvas.height);const r=await tesseractLayout(makeOcrCanvas(canvas,{scale:1.1,contrast:1.2}),`Frame ${i+1}`,'11');if(r.lines.length)results.push(r)}
+    const merged=mergeOcrResults(results);if(!merged.lines.length)throw new Error('No readable invitation text was found in this video. Try a clearer video or upload a screenshot of the invitation screen.');return merged;
+  }finally{URL.revokeObjectURL(url);video.pause();video.removeAttribute('src');video.load();video.remove()}
+}
+function seekVideoRobust(video,t){return new Promise((resolve,reject)=>{let done=false;const cleanup=()=>{clearTimeout(timer);video.removeEventListener('seeked',onSeek);video.removeEventListener('error',onErr)};const onSeek=()=>{if(done)return;done=true;cleanup();requestAnimationFrame(resolve)};const onErr=()=>{if(done)return;done=true;cleanup();reject(new Error('Could not read a frame from this video.'))};const timer=setTimeout(()=>{if(done)return;try{if(video.readyState>=2){done=true;cleanup();resolve()}else onErr()}catch(_){onErr()}},9000);video.addEventListener('seeked',onSeek,{once:true});video.addEventListener('error',onErr,{once:true});try{video.currentTime=t}catch(_){onErr()}})}
+function mergeTextStrings(a,b){const aa=String(a||'').trim(),bb=String(b||'').trim();if(!aa)return bb;if(!bb)return aa;return `${aa}\n${bb}`}
+function mergeOcrResults(results){
+  const out=[],seen=new Set();
+  for(const r of results||[]) for(const l of r.lines||[]){const t=normalizeOcrLine(l.text);const key=t.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();if(key.length<2||seen.has(key))continue;seen.add(key);out.push({...l,text:t})}
+  out.sort((a,b)=>a.page-b.page||a.top-b.top); return {text:out.map(x=>x.text).join('\n'),lines:out,confidence:out.length?out.reduce((a,b)=>a+(b.confidence||0),0)/out.length:0};
+}
+function normalizePdfTextItems(items){let out=[];let lastY=null;let line='';for(const s of items){const y=Number.isFinite(s.transform?.[5])?Math.round(s.transform[5]):null;if(lastY!==null&&y!==null&&Math.abs(y-lastY)>4){if(line.trim())out.push(line.trim());line=''}line+=(line?' ':'')+String(s.str||'');lastY=y}if(line.trim())out.push(line.trim());return out.join('\n')}
+function normalizeInvitationText(raw){return String(raw||'').replace(/\r/g,'\n').replace(/[\u00a0]/g,' ').replace(/[“”]/g,'"').replace(/[’‘]/g,"'").replace(/[–—]/g,'-').split(/\n+/).map(normalizeOcrLine).filter(Boolean).join('\n')}
+function cleanLine(s){return normalizeOcrLine(s)}
+const MONTHS={JANUARY:1,FEBRUARY:2,MARCH:3,APRIL:4,MAY:5,JUNE:6,JULY:7,AUGUST:8,SEPTEMBER:9,OCTOBER:10,NOVEMBER:11,DECEMBER:12};
+const WEEKDAYS={SUNDAY:0,MONDAY:1,TUESDAY:2,WEDNESDAY:3,THURSDAY:4,FRIDAY:5,SATURDAY:6,SUN:0,MON:1,TUE:2,WED:3,THU:4,FRI:5,SAT:6};
+function monthFromToken(m){const u=String(m||'').toUpperCase().replace(/[^A-Z]/g,'');if(MONTHS[u])return MONTHS[u];const keys=Object.keys(MONTHS);const idx=keys.findIndex(x=>x.startsWith(u));return idx>=0?idx+1:null}
+function weekdayFromLine(s){const m=String(s||'').toUpperCase().match(/\b(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUN|MON|TUE|WED|THU|FRI|SAT)\b/);return m?WEEKDAYS[m[1]]:null}
+function findYearHint(lines,idx){const near=lines.slice(Math.max(0,idx-7),Math.min(lines.length,idx+2)).map(x=>x.text||x).join(' ');const y=near.match(/\b(20\d{2})\b/);if(y)return Number(y[1]);const s=near.match(/['’]\s*(\d{2})\b/);if(s)return 2000+Number(s[1]);return null}
+function resolveYear(day,month,weekday,yearHint){if(yearHint)return {year:yearHint,source:'explicit or title year'};if(Number.isInteger(weekday)){const now=new Date().getFullYear();const c=[];for(let y=now-5;y<=now+5;y++)if(new Date(Date.UTC(y,month-1,day)).getUTCDay()===weekday)c.push(y);if(c.length){c.sort((a,b)=>Math.abs(a-now)-Math.abs(b-now));return {year:c[0],source:'weekday matched'}}}return {year:new Date().getFullYear(),source:'current year fallback'}}
+function parseDateInfo(s,yearHint){const u=normalizeOcrLine(s).toUpperCase();const m=u.match(/\b(\d{1,2})(?:ST|ND|RD|TH)?\s*(?:\|\s*)?([A-Z]{3,9})(?:\s*(20\d{2}|['’]\d{2}))?\b/i);if(!m)return null;const month=monthFromToken(m[2]);if(!month)return null;const day=Number(m[1]);let year,source;if(m[3]){year=/^20/.test(m[3])?Number(m[3]):2000+Number(m[3].slice(1));source='date text'}else{const r=resolveYear(day,month,weekdayFromLine(u),yearHint);year=r.year;source=r.source}return {date:`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,day,month,year,yearSource:source}}
+function parseTime(s){const m=String(s||'').match(/\b(\d{1,2})(?::(\d{2}))?\s*(AM|PM)\s*(ONWARDS|ONWARD)?\b/i);return m?`${m[1]}${m[2]?':'+m[2]:':00'} ${m[3].toUpperCase()}${m[4]?' onwards':''}`:''}
+function isScheduleLine(s){const v=cleanLine(s);return !!parseDateInfo(v,null)||!!parseTime(v)||/^(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUN|MON|TUE|WED|THU|FRI|SAT)$/i.test(v)}
+function isGenericLine(s){return /^(YOU ARE|CORDIALLY|INVITED|PLEASE JOIN|SAVE THE DATE|WARM REGARDS|SEE YOU|WHERE|DRESS UP|RSVP|AN ODE|A NIGHT|AN EVENING|LAST HAND OF THE SEASON)\b/i.test(cleanLine(s))}
+function looksLikeAddress(x){const s=cleanLine(x).replace(/^@/,'');const house=/^\s*(?:[A-Z]{0,2}[- ]?)?\d{1,5}[A-Z]?\s+[A-Za-z]/.test(s);return !isScheduleLine(s)&&(/\b(ROAD|DRIVE|STREET|LANE|AVENUE|MARG|CHOWK|CHHATARPUR|CHATARPUR|SECTOR|BLOCK|FARMS?|FARM|PARK|COLONY|SQUARE|NAGAR|CROSSING)\b/i.test(s)||house)}
+function looksLikeVenue(x){const s=cleanLine(x).replace(/^@/,'');return !isScheduleLine(s)&&/\b(HOTEL|RESORT|LAWN|BALLROOM|TERRACE|POOL|CURRENT|HALL|ROOM|GARDEN|BANQUET|CLUB|AREA|FARM|FARMS|PAVILION|STUDIO|CAFE|RESTAURANT|ROOFTOP|HOUSE)\b/i.test(s)}
+function titleScore(x,height=0){const s=cleanLine(x);if(!s||s.length>70||isGenericLine(s)||isScheduleLine(s)||looksLikeAddress(s)||looksLikeVenue(s)||/^VENUE\b/i.test(s))return -999;let score=0;score+=s.length<=35?5:1;if(/['’]\d{2}\b/.test(s))score+=10;if(height>80)score+=7;else if(height>50)score+=4;if(/[A-Za-z]/.test(s))score+=2;if(/^[A-Z][A-Za-z'’&-]*(?:\s+[A-Za-z][A-Za-z'’&-]*){0,6}$/.test(s))score+=2;return score}
+function normalizeTitle(x){return cleanLine(String(x||'').replace(/^[-|:;,]+|[-|:;,]+$/g,''))}
+function titleBeforeDate(line){const s=cleanLine(line);const m=s.match(/\b\d{1,2}(?:ST|ND|RD|TH)?\s*(?:\|\s*)?(?:JAN(?:UARY)?|FEB(?:RUARY)?|MAR(?:CH)?|APR(?:IL)?|MAY|JUN(?:E)?|JUL(?:Y)?|AUG(?:UST)?|SEP(?:TEMBER)?|OCT(?:OBER)?|NOV(?:EMBER)?|DEC(?:EMBER)?)/i);if(!m)return '';let prefix=s.slice(0,m.index).replace(/\b(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUN|MON|TUE|WED|THU|FRI|SAT)\b/ig,' ').replace(/[|:;,\-]+/g,' ').trim();return normalizeTitle(prefix)}
+function categoryFromBlock(block,name){const preferred=block.filter(x=>x.text!==name&&!isScheduleLine(x.text)&&!looksLikeAddress(x.text)&&!isVenueMarker(x.text)&&/\b(PARTY|NIGHT|SUNDOWNER|BRUNCH|DINNER|LUNCH|COCKTAIL|CEREMONY|MEHENDI|HALDI|SANGEET|RECEPTION|WEDDING|PUJA|PUDJA|GET-TOGETHER|GATHERING)\b/i.test(x.text));if(preferred[0])return cleanLine(preferred[0].text);const caps=block.filter(x=>x.text!==name&&!isScheduleLine(x.text)&&!isVenueMarker(x.text)&&/[A-Z]/.test(x.text)&&x.text===x.text.toUpperCase()&&x.text.length<=50);return caps[0]?.text||''}
+function parseInvitation(src){
+  const rawText=String(src?.text||src||'');const input=src&&Array.isArray(src.lines)?src:{lines:rawText.split(/\n+/).map((x,i)=>({text:x,page:1,top:i*20,height:20})),text:rawText};
+  const lines=input.lines.map((x,i)=>({...x,text:cleanLine(x.text||x),page:Number(x.page||1),top:Number(x.top||i*20),height:Number(x.height||20)})).filter(x=>x.text);const normalizedAll=normalizeInvitationText(rawText);
+  const markers=[];for(let i=0;i<lines.length;i++){const d=parseDateInfo(lines[i].text,findYearHint(lines,i));if(!d)continue;let time=parseTime(lines[i].text),timeIdx=i;if(!time){for(let j=i+1;j<Math.min(lines.length,i+6);j++){if(lines[j].page!==lines[i].page)break;const t=parseTime(lines[j].text);if(t){time=t;timeIdx=j;break}}}if(time)markers.push({dateIdx:i,timeIdx,time,dateInfo:d,page:lines[i].page})}
+  if(!markers.length){for(let i=0;i<lines.length;i++){const d=parseDateInfo(lines[i].text,new Date().getFullYear());const t=parseTime(lines[i].text);if(d&&t)markers.push({dateIdx:i,timeIdx:i,time:t,dateInfo:d,page:lines[i].page})}}
+  const events=[];
+  for(let mi=0;mi<markers.length;mi++){const m=markers[mi];let end=lines.length;for(let j=m.dateIdx+1;j<lines.length;j++){if(lines[j].page!==m.page||markers.some((mm,k)=>k>mi&&mm.dateIdx===j)){end=j;break}}const block=lines.slice(Math.max(0,m.dateIdx-10),end).filter(l=>l.page===m.page);const relDate=block.findIndex(l=>l===lines[m.dateIdx]);const relTime=block.findIndex(l=>l===lines[m.timeIdx]);
+    let name='';const inline=titleFromDateLineArtifacts(lines[m.dateIdx].text)||titleBeforeDate(lines[m.dateIdx].text);if(inline)name=inline;
+    if(!name){
+      // For the common invitation layout, the event title is the first descriptive line after the time, before a category/venue line.
+      const afterTime=[];const startIdx=Math.max(0,relTime>=0?relTime+1:relDate+1);
+      for(let j=startIdx;j<Math.min(block.length,startIdx+8);j++){const l=block[j];if(isScheduleLine(l.text)||isGenericLine(l.text)||isVenueMarker(l.text)||looksLikeAddress(l.text))continue;if(looksLikeVenue(l.text))continue;afterTime.push({t:l.text,idx:j})}
+      const preferred=afterTime.find(x=>!titleLooksLikeCategory(x.t)&&!/^[A-Z][A-Z &'’-]{3,45}$/.test(x.t));
+      if(preferred)name=preferred.t;
+      else if(afterTime[0]&&!/^(VENUE|RSVP)\b/i.test(afterTime[0].t))name=afterTime[0].t;
+    }
+    if(!name){
+      const candidates=[];for(let j=Math.max(0,m.dateIdx-8);j<m.dateIdx;j++){const l=lines[j];if(l.page!==m.page)continue;const t=extractYearTitle(l.text)||extractTitleCandidate(l.text,l.height);if(t)candidates.push({t,score:titleCandidateScore(t,l.height)+(m.dateIdx-j===1?5:0)})}candidates.sort((a,b)=>b.score-a.score);if(candidates[0])name=candidates[0].t
+    }
+    if(!name){const yr=lines.filter(l=>l.page===m.page).map(l=>extractYearTitle(l.text)).find(Boolean);if(yr)name=yr}
+    if(!name){const candidates=[];for(let j=Math.max(0,m.dateIdx-3);j<Math.min(block.length,m.dateIdx+7);j++){const l=block[j];if(isScheduleLine(l.text)||isGenericLine(l.text)||looksLikeAddress(l.text)||looksLikeVenue(l.text)||isVenueMarker(l.text))continue;const sc=titleScore(l.text,l.height);if(sc>0)candidates.push({t:l.text,score:sc})}candidates.sort((a,b)=>b.score-a.score);if(candidates[0])name=candidates[0].t}
+    name=normalizeTitle(name);if(name&&!/['’]\d{2}$/.test(name)&&/\s\d{2}$/.test(name))name=name.replace(/\s(\d{2})$/," '$1");
+    let venue='';const start=Math.max(0,relTime>=0?relTime+1:relDate+1);for(let i=start;i<block.length&&i<start+12;i++){if(/^VENUE\b/i.test(block[i].text)){venue=cleanVenueText(block[i].text);if(!venue&&block[i+1])venue=cleanVenueText(block[i+1].text);break}}if(!venue){const c=[];for(let i=start;i<block.length&&i<start+12;i++){const l=block[i];if(isScheduleLine(l.text)||isGenericLine(l.text))continue;let sc=0;if(looksLikeAddress(l.text))sc+=35;if(/^@/.test(l.text))sc+=28;if(looksLikeVenue(l.text))sc+=20;if(sc)c.push({l,score:sc,i})}c.sort((a,b)=>b.score-a.score||a.i-b.i);if(c[0]){venue=cleanVenueText(c[0].l.text);const n=block[c[0].i+1];if(n&&!isScheduleLine(n.text)&&!isGenericLine(n.text)&&!looksLikeVenue(n.text)&&!titleLooksLikeCategory(n.text)&&/^[A-Za-z0-9]/.test(n.text))venue=cleanVenueText(`${venue} ${n.text}`)}}
+    if(!venue){const globalAddr=lines.find(l=>looksLikeAddress(l.text));if(globalAddr)venue=cleanVenueText(globalAddr.text)}
+    const category=categoryFromBlock(block,name)||'SOCIAL EVENT';events.push({name:name||'Untitled event',date:m.dateInfo.date,time:m.time||'',venue,category,dress_code:null,host:null,priority:'Normal',confidence:(name&&m.time&&venue)?0.99:(name&&m.time)?0.85:0.65,notes:null,styleNotes:'',stylePhotos:[]})
+  }
+  if(!events.length){const d=parseDateInfo(normalizedAll,new Date().getFullYear()),t=parseTime(normalizedAll),addr=lines.find(l=>looksLikeAddress(l.text)),yt=lines.map(l=>extractYearTitle(l.text)).find(Boolean);if(d&&(t||addr||yt))events.push({name:yt||'Untitled event',date:d.date,time:t||'',venue:addr?cleanVenueText(addr.text):'',category:'SOCIAL EVENT',dress_code:null,host:null,priority:'Normal',confidence:.7,notes:null,styleNotes:'',stylePhotos:[]})}
+  const clean=[],seen=new Set();for(const e of events){const key=[e.date,e.name.toLowerCase(),e.time.toLowerCase(),e.venue.toLowerCase()].join('|');if(!seen.has(key)){seen.add(key);clean.push(e)}}return {overall_event_name:clean.length===1?clean[0].name:null,events:clean,text:rawText||lines.map(x=>x.text).join('\n')}
+}
+function titleBeforeDate(s){const u=cleanLine(s);const m=u.match(/\b\d{1,2}(?:ST|ND|RD|TH)?\s*(?:\|\s*)?(?:JAN(?:UARY)?|FEB(?:RUARY)?|MAR(?:CH)?|APR(?:IL)?|MAY|JUN(?:E)?|JUL(?:Y)?|AUG(?:UST)?|SEP(?:TEMBER)?|OCT(?:OBER)?|NOV(?:EMBER)?|DEC(?:EMBER)?)\b/i);if(!m)return '';let prefix=u.slice(0,m.index).replace(/\b(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUN|MON|TUE|WED|THU|FRI|SAT)\b/ig,' ').replace(/[|:;,-]+/g,' ').trim();return extractYearTitle(prefix)||prefix}
+function titleFromDateLineArtifacts(s){const u=cleanLine(s);const m=u.match(/\b([A-Za-z][A-Za-z'’&.-]{2,25}(?:\s+[A-Za-z][A-Za-z'’&.-]{2,25}){0,2})\s*['’]?(\d{2})\b/);return m?normalizeTitle(`${m[1]} '${m[2]}`):''}
+function extractYearTitle(s){const u=cleanLine(s).replace(/^[^A-Za-z]+/,'').replace(/^[A-Z]\s+(?=[A-Z][a-z])/,'').trim();const m=u.match(/\b([A-Za-z][A-Za-z'’&.-]{2,25}(?:\s+[A-Za-z][A-Za-z'’&.-]{2,25}){0,4})\s*['’]?([0-9]{2})\b/);if(!m)return '';return normalizeTitle(`${m[1].trim()} '${m[2]}`)}
+function extractTitleCandidate(s,height=0){const t=extractYearTitle(s);return t|| (titleScore(s,height)>0?s:'')}function titleCandidateScore(t,height){return titleScore(t,height)+(/['’]\d{2}$/.test(t)?20:0)}function titleLooksLikeCategory(s){return /\b(PARTY|NIGHT|SUNDOWNER|BRUNCH|DINNER|LUNCH|COCKTAIL|CEREMONY|MEHENDI|HALDI|SANGEET|RECEPTION|WEDDING|GATHERING)\b/i.test(s)}
+
+function cleanVenueText(s){return cleanLine(String(s||'').replace(/^VENUE\s*[:\-]?\s*/i,'').replace(/^@/,''))}
+function isVenueMarker(s){return /^VENUE\s*[:\-]?/i.test(cleanLine(s))}
+
+function openReview(result,sourceName,isDemo=false){state.sourceName=sourceName;state.review=(result.events||[]).map((e,i)=>({...e,reviewId:uid('review'),priority:e.priority||'Normal'}));const overall=result.overall_event_name||((result.events||[]).length===1?(result.events[0].name||''):'');const heading=isDemo?'Rajbeer & Srishti / Pre Wedding Festivities':(overall||'Invitation details');openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">${isDemo?'DRESSED DEMO':'INVITATION'}</div><div class="panel-title">${esc(heading)}</div><div class="panel-sub">${state.review.length} event${state.review.length===1?'':'s'} found · Check details before adding.</div></div><button class="x" data-close-sheet>×</button></div><div class="review-list">${state.review.map(reviewCard).join('')}</div><button class="primary" id="saveReview">Add ${state.review.length} event${state.review.length===1?'':'s'} to DRESSED</button><button class="outline" data-close-sheet>Cancel</button>`);document.getElementById('saveReview').onclick=saveReview;document.querySelectorAll('[data-edit-review]').forEach(b=>b.onclick=()=>editReview(b.dataset.editReview));document.querySelectorAll('[data-pick-review]').forEach(b=>b.onclick=()=>pickReviewPriority(b.dataset.pickReview))}
+function reviewCard(e){const p=parts(e.date);return `<div class="review-card" data-review="${e.reviewId}"><div class="review-top"><div class="review-date"><b>${p.day}</b><span>${p.month}</span></div><div style="flex:1"><input class="input" value="${esc(e.name)}" data-rf="name" style="padding:8px 10px;font-family:Georgia,serif;font-size:18px"><div class="review-category">${esc(e.category||'SOCIAL EVENT')}</div><div class="review-meta">${esc(timeDisplay(e.time))}${e.venue?' · '+esc(e.venue):''}</div>${e.notes?`<div style="font-size:9px;color:#9a5a3f;margin-top:6px">${esc(e.notes)}</div>`:''}</div></div><div class="small-actions" style="margin-top:9px"><button data-edit-review="${e.reviewId}">Edit details</button><button class="solid" data-pick-review="${e.reviewId}">Priority: ${esc(e.priority||'Normal')}</button></div></div>`}
+function editReview(id){const e=state.review.find(x=>x.reviewId===id);if(!e)return;openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">REVIEW EVENT</div><div class="panel-title">Edit details</div><div class="panel-sub">Correct anything the local reader missed.</div></div><button class="x" data-close-sheet>×</button></div><div class="field"><div class="label">Name</div><input class="input" id="rfName" value="${esc(e.name)}"></div><div class="field"><div class="label">Category</div><input class="input" id="rfCat" value="${esc(e.category||'')}"></div><div class="field"><div class="label">Date</div><input class="input" id="rfDate" type="date" value="${esc(e.date)}"></div><div class="field"><div class="label">Time</div><input class="input" id="rfTime" value="${esc(e.time||'')}"></div><div class="field"><div class="label">Venue</div><input class="input" id="rfVenue" value="${esc(e.venue||'')}"></div><div class="field"><div class="label">Dress code</div><input class="input" id="rfDress" value="${esc(e.dress_code||'')}"></div><button class="primary" id="saveReviewEdit">Save details</button>`);document.getElementById('saveReviewEdit').onclick=()=>{Object.assign(e,{name:val('rfName')||e.name,category:val('rfCat'),date:val('rfDate'),time:val('rfTime'),venue:val('rfVenue'),dress_code:val('rfDress')||null});closeSheet();setTimeout(()=>openReview({events:state.review},state.sourceName,false),70)}}
+function pickReviewPriority(id){const e=state.review.find(x=>x.reviewId===id);if(!e)return;openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">PRIORITY</div><div class="panel-title">How important is this?</div><div class="panel-sub">Useful when more than one event lands on the same day.</div></div><button class="x" data-close-sheet>×</button></div><div class="choice-grid" style="grid-template-columns:1fr"><button class="choice" id="prHigh"><div style="padding:16px">HIGH</div></button><button class="choice" id="prMedium"><div style="padding:16px">MEDIUM</div></button><button class="choice" id="prNormal"><div style="padding:16px">NORMAL</div></button></div>`);document.getElementById('prHigh').onclick=()=>setReviewPriority(e,'High');document.getElementById('prMedium').onclick=()=>setReviewPriority(e,'Medium');document.getElementById('prNormal').onclick=()=>setReviewPriority(e,'Normal')}
+function setReviewPriority(e,p){e.priority=p;closeSheet();setTimeout(()=>openReview({events:state.review},state.sourceName,false),70)}
+function saveReview(){document.querySelectorAll('[data-review]').forEach(card=>{const id=card.dataset.review;const e=state.review.find(x=>x.reviewId===id);const inp=card.querySelector('[data-rf="name"]');if(e&&inp)e.name=inp.value.trim()||e.name});const existingByKey=new Set(state.events.map(e=>`${e.date}|${e.name}`));state.review.forEach(e=>{const clean={id:uid('evt'),name:e.name.trim(),date:e.date,time:e.time,venue:e.venue||'',category:e.category||'SOCIAL EVENT',dress_code:e.dress_code||null,host:e.host||null,priority:e.priority||'Normal',confidence:e.confidence??1,notes:e.notes||null,lookId:null,styleNotes:'',stylePhotos:[]};if(!existingByKey.has(`${clean.date}|${clean.name}`))state.events.push(clean)});state.events.forEach(e=>{if(state.events.filter(x=>x.date===e.date).length>1 && e.priority==='Normal')e.priority='Medium'});saveCurrentProfile().then(()=>{closeSheet();state.tab='home';document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.tab==='home'));render();toast('Added to DRESSED')})}
+function openEvent(id){const e=state.events.find(x=>x.id===id);if(!e)return;state.selectedEvent=e;e.stylePhotos=Array.isArray(e.stylePhotos)?e.stylePhotos:[];const look=state.looks.find(x=>x.id===e.lookId);openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">EVENT</div><div class="panel-title">Edit event</div><div class="panel-sub">Make the details yours.</div></div><button class="x" data-close-sheet>×</button></div><div class="field"><div class="label">Name</div><input class="input" id="efName" value="${esc(e.name)}"></div><div class="field"><div class="label">Category</div><input class="input" id="efCategory" value="${esc(e.category||'')}"></div><div class="field"><div class="label">Date</div><input class="input" id="efDate" type="date" value="${esc(e.date)}"></div><div class="field"><div class="label">Time</div><input class="input" id="efTime" value="${esc(e.time||'')}"></div><div class="field"><div class="label">Venue</div><input class="input" id="efVenue" value="${esc(e.venue||'')}"></div><div class="field"><div class="label">Priority</div><select class="select" id="efPriority"><option>High</option><option>Medium</option><option>Normal</option></select></div><div class="field"><div class="label">Dress code</div><input class="input" id="efDress" value="${esc(e.dress_code||'')}"></div>${look?`<div class="field"><div class="label">Outfit</div><div class="event-style"><div style="display:flex;gap:10px;align-items:center"><img src="${esc((look.photos?.[0]||look.dataUrl)||'')}" style="width:56px;height:56px;border-radius:13px;object-fit:cover"><div style="flex:1"><b>${esc(look.name)}</b><div class="es-note">${e.styleNotes?esc(e.styleNotes):'No event-specific note yet.'}</div></div></div>${e.stylePhotos.length?`<div class="mini-grid">${e.stylePhotos.slice(0,4).map(x=>`<img src="${esc(x)}" alt="">`).join('')}</div>`:''}<button class="outline" id="customizeOutfit">Customize outfit for this event</button></div></div>`:`<div class="field"><div class="label">Outfit</div><button class="outline" id="customizeOutfit">Choose a look</button></div>`}<button class="primary" id="saveEvent">Save changes</button><button class="outline" id="addCalendar">Add to Apple Calendar</button><button class="danger" id="deleteEvent">Delete event</button>`);document.getElementById('efPriority').value=e.priority||'Normal';document.getElementById('saveEvent').onclick=async()=>{Object.assign(e,{name:val('efName'),category:val('efCategory'),date:val('efDate'),time:val('efTime'),venue:val('efVenue'),priority:val('efPriority'),dress_code:val('efDress')||null});await saveCurrentProfile();closeSheet();render();toast('Event updated')};document.getElementById('addCalendar').onclick=()=>addToCalendar(e);document.getElementById('deleteEvent').onclick=()=>{if(confirm('Delete this event?')){state.events=state.events.filter(x=>x.id!==e.id);saveCurrentProfile().then(()=>{closeSheet();render();toast('Event deleted')})}};document.getElementById('customizeOutfit').onclick=()=>{const eid=e.id;closeSheet();setTimeout(()=>look?openEventStyle(eid):openLookPicker(eid),80)}}
+
+function val(id){return document.getElementById(id)?.value||''}
+function readImageFile(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result));r.onerror=()=>reject(new Error('Could not read that photo.'));r.readAsDataURL(file)})}
+function renderPhotoStrip(photos){return photos.length?`<div class="photo-strip">${photos.map((src,i)=>`<div class="photo-thumb"><img src="${esc(src)}" alt=""><button class="remove" type="button" data-remove-photo="${i}">×</button></div>`).join('')}</div>`:''}
+function openAddLook(returnEventId=null,editLookId=null){state.lookForEvent=returnEventId;state.editLookId=editLookId||null;const context=`${returnEventId||''}|${editLookId||''}`;const existing=editLookId?state.looks.find(l=>l.id===editLookId):null;if(state.pendingLookContext!==context){const basePhotos=existing?(Array.isArray(existing.photos)&&existing.photos.length?existing.photos:[existing.dataUrl].filter(Boolean)):[];state.pendingLookPhotos=[...basePhotos];state.pendingLookContext=context}state.pendingLook=state.pendingLookPhotos[0]||null;openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">MY LOOKS</div><div class="panel-title">${existing?'Edit look':'Add a look'}</div><div class="panel-sub">Save multiple photos and notes with every look.</div></div><button class="x" data-close-sheet>×</button></div><button class="upload-area" type="button" id="chooseLook" style="width:100%;margin-top:14px;display:block"><strong>＋ Add outfit photos</strong><p>Select one or several outfit photos.</p></button>${renderPhotoStrip(state.pendingLookPhotos)}<div class="field"><div class="label">Look name</div><input class="input" id="lookName" value="${esc(existing?.name||'')}" placeholder="e.g. Black dinner look"></div><div class="field"><div class="label">Notes</div><textarea class="textarea" id="lookNotes" placeholder="Shoes, watch, jacket, mood…">${esc(existing?.notes||'')}</textarea></div><button class="primary" id="saveLook">${existing?'Save changes':'Save look'}</button>${existing?`<button class="danger" id="deleteEditingLook">Delete look</button>`:''}`);document.getElementById('chooseLook').onclick=pickLookFiles;document.querySelectorAll('[data-remove-photo]').forEach(b=>b.onclick=()=>{state.pendingLookPhotos.splice(Number(b.dataset.removePhoto),1);openAddLook(returnEventId,editLookId)});document.getElementById('saveLook').onclick=saveLookFromSheet;if(existing)document.getElementById('deleteEditingLook').onclick=()=>deleteLook(existing.id)}
+async function saveLookFromSheet(){if(!state.pendingLookPhotos.length){toast('Add at least one outfit photo');return}const name=val('lookName').trim()||'Untitled look',notes=val('lookNotes').trim();if(state.editLookId){const l=state.looks.find(x=>x.id===state.editLookId);if(!l)return;l.name=name;l.notes=notes;l.photos=[...state.pendingLookPhotos];l.dataUrl=l.photos[0]||'';const eid=state.lookForEvent;await saveCurrentProfile();closeSheet();if(eid){const e=state.events.find(x=>x.id===eid);if(e){e.lookId=l.id;await saveCurrentProfile()}}state.tab='looks';render();toast('Look updated');return}const saved={id:uid('look'),name,dataUrl:state.pendingLookPhotos[0],photos:[...state.pendingLookPhotos],notes};state.looks.push(saved);const returnEventId=state.lookForEvent;await saveCurrentProfile();closeSheet();if(returnEventId){const e=state.events.find(x=>x.id===returnEventId);if(e){e.lookId=saved.id;await saveCurrentProfile()}state.tab='home';render();toast('Look saved and assigned')}else{state.tab='looks';render();toast('Look saved')}}
+function pickLookFiles(){const input=document.getElementById('lookFile');if(!input){toast('Photo picker unavailable.');return}try{input.click()}catch(_){toast('Please choose photos in Safari.')}}
+async function handleLookFiles(files){try{const urls=await Promise.all(files.map(readImageFile));state.pendingLookPhotos=[...(state.pendingLookPhotos||[]),...urls];openAddLook(state.lookForEvent,state.editLookId)}catch(err){toast(err?.message||'Could not read the photos.')}}
+function deleteLook(id){const l=state.looks.find(x=>x.id===id);if(!l)return;if(!confirm(`Delete “${l.name}”?`))return;state.looks=state.looks.filter(x=>x.id!==id);state.events.forEach(e=>{if(e.lookId===id)e.lookId=null});saveCurrentProfile().then(()=>{closeSheet();state.tab='looks';render();toast('Look deleted')})}
+function openLookPicker(eventId){const e=state.events.find(x=>x.id===eventId);if(!e)return;state.lookForEvent=eventId;openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">STYLE THIS EVENT</div><div class="panel-title">Choose a look</div><div class="panel-sub">${esc(e.name)}</div></div><button class="x" data-close-sheet>×</button></div><div class="choice-grid"><button class="choice ${!e.lookId?'selected':''}" id="noLook"><div style="padding:22px;text-align:center">No look<br>assigned</div></button>${state.looks.map(l=>{const photos=Array.isArray(l.photos)&&l.photos.length?l.photos:[l.dataUrl].filter(Boolean);return `<button class="choice ${e.lookId===l.id?'selected':''}" data-choose-look="${esc(l.id)}"><img src="${esc(photos[0]||'')}" alt=""><div>${esc(l.name)}${photos.length>1?' · '+photos.length+' photos':''}</div></button>`}).join('')}</div><button class="outline" id="newLookFromPicker">＋ Add a new look</button>${e.lookId?`<button class="outline" id="editAssignedLook">Edit assigned look</button>`:''}<button class="outline" id="customizeEventOutfit">Customize outfit for this event</button>`);document.getElementById('noLook').onclick=()=>assignLook(null,eventId);document.querySelectorAll('[data-choose-look]').forEach(b=>b.onclick=()=>assignLook(b.dataset.chooseLook,eventId));document.getElementById('newLookFromPicker').onclick=()=>{const id=eventId;closeSheet();setTimeout(()=>openAddLook(id),80)};document.getElementById('customizeEventOutfit').onclick=()=>openEventStyle(eventId);if(document.getElementById('editAssignedLook'))document.getElementById('editAssignedLook').onclick=()=>openAddLook(eventId,e.lookId)}
+function assignLook(lookId,eventId){const e=state.events.find(x=>x.id===eventId);if(e){e.lookId=lookId;saveCurrentProfile().then(()=>{closeSheet();render();toast(lookId?'Look assigned':'Look removed')})}}
+function openEventStyle(eventId){const e=state.events.find(x=>x.id===eventId);if(!e)return;e.stylePhotos=Array.isArray(e.stylePhotos)?e.stylePhotos:[];const look=state.looks.find(l=>l.id===e.lookId);openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">OUTFIT FOR THIS EVENT</div><div class="panel-title">Customize the look</div><div class="panel-sub">${esc(e.name)}</div></div><button class="x" data-close-sheet>×</button></div>${look?`<div class="field"><div class="label">Assigned look</div><div class="event-style"><div style="display:flex;gap:10px;align-items:center"><img src="${esc((look.photos?.[0]||look.dataUrl)||'')}" style="width:52px;height:52px;object-fit:cover;border-radius:12px"><div><b>${esc(look.name)}</b><div class="es-note">You can customize this event without changing the saved look.</div></div></div></div></div>`:''}<div class="field"><div class="label">Outfit note for this event</div><textarea class="textarea" id="eventStyleNote" placeholder="e.g. Wear navy jacket, brown loafers, bring pocket square…">${esc(e.styleNotes||'')}</textarea></div><div class="field"><div class="label">Extra outfit photos for this event</div><button class="upload-area" type="button" id="addEventPhotos" style="width:100%"><strong>＋ Add photos</strong><p>Accessories, alternatives, tailoring references, etc.</p></button>${renderPhotoStrip(e.stylePhotos)}</div><button class="primary" id="saveEventStyle">Save outfit customisation</button>`);document.getElementById('addEventPhotos').onclick=()=>{const input=document.getElementById('eventPhotoFile');try{input.click()}catch(_){toast('Please choose photos in Safari.')}};document.querySelectorAll('[data-remove-photo]').forEach(b=>b.onclick=()=>{e.stylePhotos.splice(Number(b.dataset.removePhoto),1);openEventStyle(eventId)});document.getElementById('saveEventStyle').onclick=async()=>{e.styleNotes=val('eventStyleNote').trim();await saveCurrentProfile();closeSheet();render();toast('Outfit customisation saved')}}
+async function handleEventPhotoFiles(files){const eid=state.selectedEvent?.id||state.lookForEvent;if(!eid)return;const e=state.events.find(x=>x.id===eid);if(!e)return;e.stylePhotos=Array.isArray(e.stylePhotos)?e.stylePhotos:[];try{const urls=await Promise.all(files.map(readImageFile));e.stylePhotos.push(...urls);await saveCurrentProfile();openEventStyle(eid)}catch(err){toast(err?.message||'Could not read event photos.')}}
+
+function openProfiles(){const list=state.profiles.map(p=>`<div class="profile-item ${p.id===state.activeProfileId?'active':''}"><div class="profile-avatar">${esc(p.emoji||'☺')}</div><div class="pi-meta"><div class="pi-name">${esc(p.name)}</div><div class="pi-sub">${(p.events||[]).length} events · ${(p.looks||[]).length} looks</div></div>${p.id===state.activeProfileId?'<span style="font-size:9px;font-weight:800">CURRENT</span>':`<button data-switch-profile="${esc(p.id)}">Switch</button>`}</div>`).join('');openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">DRESSED / PROFILES</div><div class="panel-title">Choose your profile.</div><div class="panel-sub">Each profile keeps its own events and looks on this device.</div></div><button class="x" data-close-sheet>×</button></div><div class="profile-list">${list}</div><div class="field"><div class="label">Add profile</div><div class="profile-add"><input class="input" id="newProfileName" placeholder="e.g. Mom, Dad, Sarah"><button class="primary" style="margin-top:0;width:110px" id="addProfile">Add</button></div></div><p style="font-size:10px;margin-top:12px">Profiles are private to this browser/device for now. Multi-device cloud sync can be added later without changing your event and outfit structure.</p>`);document.querySelectorAll('[data-switch-profile]').forEach(b=>b.onclick=()=>switchProfile(b.dataset.switchProfile));document.getElementById('addProfile').onclick=async()=>{const name=val('newProfileName').trim();if(!name){toast('Enter a profile name');return}const p={id:uid('profile'),name,emoji:'☺',events:[],looks:[]};state.profiles.push(p);await put('profiles',p);await switchProfile(p.id)}}
+function openSettings(){openSheet(`<div class="grab"></div><div class="panel-head"><div><div class="eyebrow">DRESSED / PRIVATE</div><div class="panel-title">Settings</div><div class="panel-sub">Built for personal use.</div></div><button class="x" data-close-sheet>×</button></div><div class="field"><div class="label">Invitation reader</div><p style="font-size:12px;margin:0">DRESSED processes PDFs, photos and sampled video frames with its private invitation reader. No OpenAI API key, account or AI subscription is required for invitation reading.</p></div><div class="field"><div class="label">Monthly usage</div><p style="font-size:12px;margin:0">Designed for roughly 10 invitations a month. Your events and looks stay in this browser.</p></div><button class="outline" id="demoBtn">Try the Rajbeer & Srishti demo</button><button class="danger" id="clearBtn">Clear all DRESSED data</button>`);document.getElementById('demoBtn').onclick=()=>{closeSheet();openDemo()};document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear all events and looks from this browser?')){state.events=[];state.looks=[];saveCurrentProfile().then(()=>{closeSheet();render();toast('DRESSED cleared')})}}}
+function openDemo(){openReview({overall_event_name:'Pre Wedding Festivities of Rajbeer and Srishti',events:[{name:'Poolside Reverie',date:'2026-10-30',time:'3:00 PM onwards',venue:'Poolside Area',category:'WELCOME POOL PARTY',dress_code:null,host:'WADHAWAN FAMILY',priority:'Normal',confidence:1,notes:null},{name:'Black Tie & Beats',date:'2026-10-30',time:'9:00 PM onwards',venue:'Shivalik Grand Lawn',category:'COCKTAIL NIGHT',dress_code:null,host:'WADHAWAN FAMILY',priority:'Normal',confidence:1,notes:null},{name:'Sunset Soirée',date:'2026-10-31',time:'2:00 PM onwards',venue:'Aqua Current',category:'SUNDOWNER',dress_code:null,host:'WADHAWAN FAMILY',priority:'Normal',confidence:1,notes:null},{name:'Mehfil - e - Ishq',date:'2026-10-31',time:'9:00 PM onwards',venue:'Shivalik Grand Lawn',category:'SUFI NIGHT',dress_code:null,host:'WADHAWAN FAMILY',priority:'Normal',confidence:1,notes:null}]},'Pre Wedding #SrishKaRaj.pdf',true)}
+function addToCalendar(e){const start=startDate(e.date,e.time),end=new Date(start.getTime()+2*60*60*1000),pad=n=>String(n).padStart(2,'0'),ymd=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`,hm=d=>`${ymd(d)}T${pad(d.getHours())}${pad(d.getMinutes())}00`,text=v=>String(v||'').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DRESSED//EN','BEGIN:VEVENT',`UID:${e.id}@dressed`,`DTSTAMP:${hm(new Date())}`,`DTSTART:${hm(start)}`,`DTEND:${hm(end)}`,`SUMMARY:${text(e.name)}`,`LOCATION:${text(e.venue)}`,`DESCRIPTION:${text(`${e.category||''}${e.dress_code?' | Dress code: '+e.dress_code:''}\nOriginal time: ${e.time||''}`)}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');const file=new File([ics],'dressed-event.ics',{type:'text/calendar'});if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:e.name}).then(()=>toast('Share the event to Calendar')).catch(err=>{if(err?.name!=='AbortError')toast('Could not create calendar event')})}else{const url=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));const a=document.createElement('a');a.href=url;a.download='dressed-event.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),500);toast('Event file created — open it with Calendar')}}
+function pickInviteFile(){
+  const input=document.getElementById('inviteFile');
+  if(!input){toast('Invitation picker unavailable. Please refresh DRESSED.');return;}
+  try{input.click();}catch(err){console.error(err);toast('Please use Safari to choose the invitation.');}
+}
+
+async function bootDressed(){
+  const dbTask=initDB();
+  // Never let a slow/blocked browser database prevent the Home screen from rendering.
+  await Promise.race([dbTask,new Promise(r=>setTimeout(r,900))]);
+  try{render();}catch(err){
+    console.error('DRESSED render error',err);
+    const c=document.getElementById('content');
+    if(c && !c.innerHTML.trim()) c.innerHTML=document.getElementById('bootHome')?.outerHTML||'<div class=\"empty\"><strong>DRESSED is ready.</strong></div>';
+    toast('DRESSED opened, but one screen could not load. Please refresh.');
+    bindEmergencyButtons();
+  }
+  dbTask.then(()=>{try{render()}catch(e){console.error(e)}}).catch(()=>{});
+}
+function bindEmergencyButtons(){
+  const by=(id,fn)=>{const el=document.getElementById(id); if(el&&!el.dataset.emergency){el.dataset.emergency='1';el.addEventListener('click',fn);}};
+  by('settingsBtn',openSettings); by('profileBtn',openProfiles); by('addBtn',pickInviteFile);
+  document.querySelectorAll('[data-action=\"add-invite\"]').forEach(b=>{if(!b.dataset.emergency){b.dataset.emergency='1';b.addEventListener('click',pickInviteFile)}});
+  document.querySelectorAll('[data-action=\"add-look\"]').forEach(b=>{if(!b.dataset.emergency){b.dataset.emergency='1';b.addEventListener('click',()=>openAddLook())}});
+  document.querySelectorAll('[data-tab]').forEach(b=>{if(!b.dataset.emergency){b.dataset.emergency='1';b.addEventListener('click',()=>{state.tab=b.dataset.tab;render()})}});
+}
+window.addEventListener('DOMContentLoaded',bootDressed);
+
+
+// v17: stable boot + server-side invitation reader + fixed button bindings.
+async function processInvite(file){
+  state.sourceName=file.name||'Invitation';
+  try{
+    showLoader('READING YOUR INVITATION…');
+    progress('Uploading invitation for private local parsing…');
+    const fd=new FormData();fd.append('file',file,file.name||'invitation');
+    const res=await fetch('/api/extract',{method:'POST',body:fd});
+    const data=await res.json().catch(()=>({}));
+    hideLoader();progress('');
+    if(!res.ok) throw new Error(data.detail||'DRESSED could not read this invitation.');
+    const events=(data.events||[]).map(e=>({...e,styleNotes:'',stylePhotos:[],priority:e.priority||'Normal'}));
+    state.lastRead={sourceType:data.source_type||'',rawLines:data.raw_lines||[]};
+    if(!events.length){openNoEventReview(state.sourceName,(data.raw_lines||[]).join('\n'));return;}
+    let overall=data.overall_event_name||'';
+    if(!overall&&events.length===1)overall=events[0].name;
+    openReview({overall_event_name:overall,events},state.sourceName,false);
+  }catch(err){hideLoader();progress('');console.error(err);toast(err?.message||'Could not read that invitation.')}
+}
+
+// v15: explicit edit controls in My Looks and reliable one-shot binding.
+function wire(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.tab===state.tab));render()});
+  document.querySelectorAll('[data-action="add-invite"]').forEach(b=>b.onclick=pickInviteFile);
+  document.querySelectorAll('[data-action="add-look"]').forEach(b=>b.onclick=()=>openAddLook());
+  document.querySelectorAll('[data-event]').forEach(b=>b.onclick=()=>openEvent(b.dataset.event));
+  document.querySelectorAll('[data-event-look]').forEach(b=>b.onclick=()=>openLookPicker(b.dataset.event));
+  document.querySelectorAll('[data-edit-look]').forEach(b=>b.onclick=(ev)=>{ev.preventDefault();ev.stopPropagation();openAddLook(null,b.dataset.editLook)});
+  document.querySelectorAll('[data-delete-look]').forEach(b=>b.onclick=(ev)=>{ev.preventDefault();ev.stopPropagation();deleteLook(b.dataset.deleteLook)});
+  const h=document.getElementById('hideInstall');if(h)h.onclick=()=>document.getElementById('installCard')?.remove();
+  const inv=document.getElementById('inviteFile');if(inv&&!inv.dataset.bound){inv.dataset.bound='1';inv.addEventListener('change',async()=>{const f=inv.files?.[0];inv.value='';if(f)await processInvite(f)})}
+  const lf=document.getElementById('lookFile');if(lf&&!lf.dataset.bound){lf.dataset.bound='1';lf.addEventListener('change',async()=>{const fs=[...(lf.files||[])];lf.value='';if(fs.length)await handleLookFiles(fs)})}
+  const ef=document.getElementById('eventPhotoFile');if(ef&&!ef.dataset.bound){ef.dataset.bound='1';ef.addEventListener('change',async()=>{const fs=[...(ef.files||[])];ef.value='';if(fs.length)await handleEventPhotoFiles(fs)})}
+}
+</script>
+</body>
+</html>
