@@ -1,0 +1,5 @@
+services:
+  - type: static_site
+    name: dressed-private
+    buildCommand: echo "DRESSED is a static PWA"
+    staticPublishPath: public
